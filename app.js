@@ -88,3 +88,4 @@ app.use(function(err, req, res, next) { // jshint ignore:line
 });
 
 module.exports = app;
+console.log("finished");
