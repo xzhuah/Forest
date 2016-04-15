@@ -30,7 +30,7 @@ class Story{
 
 	Vector<String> nodeId;
 	String<String> followUser;
-	String<String> comments;
+	
 	
 }
 
@@ -52,6 +52,8 @@ class Node{
 
 	Vector<String> quoteFrom;
 	Vector<String> quoteBy;
+
+	String<String> comments;
 }
 
 class Comment{
