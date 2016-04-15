@@ -186,7 +186,7 @@ $followStory=$obj[0]['followStory'];
     </nav>
     <div class="homepage-hero-module" style="position: fixed;">
         <div class="video-container">
-            <video autoplay loop class="fillWidth" style="opacity: 0.7;">
+            <video autoplay loop class="fillWidth" style="opacity: 0.8;">
                 <source src="MP4/Up.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
                 <source src="WEBM/Up.webm" type="video/webm" />Your browser does not support the video tag. I suggest you upgrade your browser.
             </video>
