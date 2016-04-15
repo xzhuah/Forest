@@ -1,8 +1,8 @@
 
-class Client{
+class _User{
 	String username;	
 	String email;
-	String passward;
+	String password;
 	Date lastUpdate;
 
 	Vector<String> followee;
