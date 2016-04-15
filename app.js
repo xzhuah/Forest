@@ -68,10 +68,10 @@ app.get('/user/:username', function(req, res) {////////////////OK
 });
 
 // get uer by email
-app.get('/user_email/:email', function(req, res) {
-  var email = req.params.email;
+app.get('/user_email/:theemail', function(req, res) {
+  var theemail = req.params.theemail;
   var EmailuserQuery = new AV.Query(AV.User);//choose table
-  EmailuserQuery.equalTo('email', email);//Condition
+  EmailuserQuery.equalTo('email', theemail);//Condition
   EmailuserQuery.find().then(function(user) {//quert
     //found
     res.json(user);
