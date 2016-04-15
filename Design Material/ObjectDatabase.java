@@ -1,5 +1,5 @@
 
-class Client{
+class User{
 	String username;	
 	String email;
 	String passward;
@@ -27,7 +27,7 @@ class Story{
 	String* theme;
 	Date createDate;
 	String introduction;
-
+	String* creator;
 	Vector<String> nodeId;
 	String<String> followUser;
 	

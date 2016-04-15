@@ -51,18 +51,108 @@ app.get('/', function(req, res) {
   res.render('index', { currentTime: new Date() });
 });
 
-// get username
+//////////////////////////////////Our Functions Start here/////////////////////////////////////
+
+// get uer by username 
 app.get('/user/:username', function(req, res) {
   var username = req.params.username;
-  var userQuery = new AV.Query(AV.User);
-  userQuery.equalTo('username', username);
-  userQuery.find().then(function(user) {
+  var userQuery = new AV.Query(AV.User);//choose table
+  userQuery.equalTo('username', username);//Condition
+  userQuery.find().then(function(user) {//quert
+    //found
     res.json(user);
   }).catch(function(error) {
+    //failed
     res.json({success: false});
   });
 });
 
+// get uer by email
+app.get('/user_email/:email', function(req, res) {
+  var email = req.params.email;
+  var EmailuserQuery = new AV.Query(AV.User);//choose table
+  userQuery.equalTo('email', email);//Condition
+  userQuery.find().then(function(user) {//quert
+    //found
+    res.json(user);
+  }).catch(function(error) {
+    //failed
+    res.json({success: false});
+  });
+});
+
+
+
+//Return comments by a nodeid
+app.get('/commentbynodeid/:nodeid',function(req,res){
+  var commentbynodeid=req.params.nodeid;
+  var findCommentByNodeID=new AV.Query("Comment");
+  findCommentByNodeID.equalTo('nodeID',commentbynodeid);
+  findClientByUsername.find().then(function(comments) {//quert
+    //found
+    res.json(comments);
+  }).catch(function(error) {
+    //failed
+    res.json({success: false});
+  });
+});
+
+//get node by id
+app.get('/node/:nodeid',function(req,res){
+  var querynodeid=res.params.nodeid;
+  var findNodeByNodeID=new AV.Query("Node");
+  findNodeByNodeID.get(querynodeid).then(function(obj){
+    res.json(obj);
+  },function(error){
+     res.json({success: false});
+  });
+});
+
+//get all themes
+app.get('/theme',function(req,res){
+   var findAllTheme=new AV.Query("Theme");
+   findAllTheme.get().then(function(obj){
+    res.json(obj);
+   },function(error){
+     res.json({success: false});
+   });
+ 
+});
+
+//Get story by theme
+app.get('/storybythemeid/:themeid',function(req,res){
+var querystorybytheme=res.params.themeid;
+var findStoryBythemeID=new AV.Query("Story");
+findStoryBythemeID.equalTo("theme",querystorybytheme);
+
+
+ findStoryBythemeID.find().then(function(obj) {//quert
+    //found
+    res.json(obj);
+  }).catch(function(error) {
+    //failed
+    res.json({success: false});
+  });
+});
+
+
+//find nodes by story id
+app.get('/nodebystoryid/:storyid',function(req,res){
+var querynodebystory=res.params.storyid;
+var findNodeByStoryID=new AV.Query("Node");
+findNodeByStoryID.equalTo("story",querynodebystory);
+
+findNodeByStoryID.find().then(function(obj) {//quert
+  //found
+  res.json(obj);
+}).catch(function(error) {
+  //failed
+  res.json({success: false});
+});
+});
+
+
+//////////////////////////////////Our Functions END here/////////////////////////////////////
 // 可以将一类的路由单独保存在一个文件中
 app.use('/todos', todos);
 
