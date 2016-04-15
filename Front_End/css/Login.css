@@ -89,7 +89,7 @@ body {
 
 #Home-icon
 {
-
+    width: 400px;
     text-align: center;
     font-size: 30px;
     position: relative;
@@ -116,12 +116,16 @@ a:hover
 
 .Home-address 
 {
+    width:400px;
 	color: #fff;
     font-family: "Comic Sans MS", cursive, sans-serif;
+   opacity: 0.8;
+
 }
 
 .Home-address:hover {
-	border-radius: 3px;
+    display: block;
+	border-radius: 5px;
 	background-color: #fff;
-    padding: 5px 5px 0px 5px;
+    padding: 5px 5px 5px 5px;
 }
