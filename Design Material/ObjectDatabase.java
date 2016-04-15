@@ -1,23 +1,24 @@
+
 class User{
-	String username;
+	String username;	
 	String email;
-	String password;
+	String passward;
 	Date lastUpdate;
 
 	Vector<String> followee;
 	Vector<String> follower;
 
+
 	Vector<String> followStory;
-	Vector<String> createStory;
+	//Vector<String> createStory;
 	Vector<String> comments;
-	Vector<String> writeNode;
+	//Vector<String> writeNode;
 	Vector<String> likeNode;
 }
 
 class Theme{
 	String name;
 	String introduction;
-	Vector<String> storys;
 }
 
 class Story{
@@ -27,10 +28,8 @@ class Story{
 	Date createDate;
 	String introduction;
 	String* creator;
-	Vector<String> nodeId;
-	String<String> followUser;
-
-
+	//Vector<String> nodeId;
+	String<String> followUser;	
 }
 
 class Node{
@@ -38,21 +37,20 @@ class Node{
 	String title;
 	String content;
 	Date createDate;
-
+	
 	String* writer;
 	Vector<String> likeBy;
 	String* story;
 
-	Vector<String> linkToParent;
-	Vector<String> linkToChildren;
 
-	Vector<String> developFromParent;
-	Vector<String> developFromChildren;
+	String* linkTo;
+	String* developFrom;
+	
 
 	Vector<String> quoteFrom;
 	Vector<String> quoteBy;
 
-	String<String> comments;
+	//String<String> comments;
 }
 
 class Comment{
@@ -62,3 +60,4 @@ class Comment{
 	String text;
 	Date createDate;
 }
+
