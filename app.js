@@ -6,7 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var todos = require('./routes/todos');
 var cloud = require('./cloud');
-
+var AV = require('leanengine');
+AV.initialize('QdSwHCdXnUjjLLGhodgIWhe5-gzGzoHsz', 'bBT9v34EJ8hN6b4jpUre1YeF');
 var app = express();
 
 // 设置 view 引擎
@@ -50,6 +51,109 @@ app.get('/', function(req, res) {
   res.render('index', { currentTime: new Date() });
 });
 
+//////////////////////////////////Our Functions Start here/////////////////////////////////////
+
+// get uer by username 
+app.get('/user/:username', function(req, res) {////////////////OK
+  var username = req.params.username;
+  var userQuery = new AV.Query(AV.User);//choose table
+  userQuery.equalTo('username', username);//Condition
+  userQuery.find().then(function(user) {//quert
+    //found
+    res.json(user);
+  }).catch(function(error) {
+    //failed
+    res.json({success: false});
+  });
+});
+
+// get uer by email
+app.get('/user_email/:theemail', function(req, res) {/////OK
+  var theemail = req.params.theemail;
+  var EmailuserQuery = new AV.Query(AV.User);//choose table
+  EmailuserQuery.equalTo('email', theemail);//Condition
+  EmailuserQuery.find().then(function(user) {//quert
+    //found
+    res.json(user);
+  }).catch(function(error) {
+    //failed
+    res.json({success: false});
+  });
+});
+
+
+
+//Return comments by a nodeid
+app.get('/commentbynodeid/:nodeid',function(req,res){////////OK
+  var commentbynodeid=req.params.nodeid;
+  var findCommentByNodeID=new AV.Query("Comment");
+  findCommentByNodeID.equalTo('nodeID',commentbynodeid);
+  findCommentByNodeID.find().then(function(comments) {//quert
+    //found
+    res.json(comments);
+  }).catch(function(error) {
+    //failed
+    res.json({success: false});
+  });
+});
+
+//get node by id
+app.get('/node/:nodeid2',function(req,res){///////OK
+  var querynodeid=req.params.nodeid2;
+  var findNodeByNodeID=new AV.Query("Node");
+  findNodeByNodeID.get(querynodeid).then(function(obj){
+    res.json(obj);
+  },function(error){
+     res.json({success: false});
+  });
+});
+
+//get all themes
+app.get('/theme',function(req,res){///////OK
+   var findAllTheme=new AV.Query("Theme");
+   findAllTheme.find().then(function(obj){
+    res.json(obj);
+   },function(error){
+     res.json({success: false});
+   });
+ 
+});
+
+//Get story by theme
+app.get('/storybythemeid/:themeid',function(req,res){////////OK
+var querystorybytheme=req.params.themeid;
+var findStoryBythemeID=new AV.Query("Story");
+findStoryBythemeID.equalTo("theme",querystorybytheme);
+
+
+ findStoryBythemeID.find().then(function(obj) {//quert
+    //found
+    res.json(obj);
+  }).catch(function(error) {
+    //failed
+    res.json({success: false});
+  });
+});
+
+
+//find nodes by story id
+app.get('/nodebystoryid/:storyid',function(req,res){//////OK
+var querynodebystory=req.params.storyid;
+var findNodeByStoryID=new AV.Query("Node");
+findNodeByStoryID.equalTo("story",querynodebystory);
+
+findNodeByStoryID.find().then(function(obj) {//quert
+  //found
+  res.json(obj);
+}).catch(function(error) {
+  //failed
+  res.json({success: false});
+});
+});
+
+/////////////////////Post ADD///////////////////////
+
+//////////////////////////////////Our Functions END here/////////////////////////////////////
 // 可以将一类的路由单独保存在一个文件中
 app.use('/todos', todos);
 

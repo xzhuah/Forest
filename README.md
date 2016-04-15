@@ -1,6 +1,6 @@
 # Forest
 
-It is deployed on Heroku: https://nic-forest.herokuapp.com/
+It is deployed on Heroku: https://forest-novel.herokuapp.com/
 
 ##Start Project:
 ```
@@ -65,7 +65,7 @@ create table Client(
 	username varchar(50) primary key,
 	email varchar(100),
 	passward varchar(50),
-	
+
 );
 create table FollowUser(
 	follower varchar(50) references Client,

@@ -1,6 +1,5 @@
-
-class _User{
-	String username;	
+class User{
+	String username;
 	String email;
 	String password;
 	Date lastUpdate;
@@ -27,11 +26,11 @@ class Story{
 	String* theme;
 	Date createDate;
 	String introduction;
-
+	String* creator;
 	Vector<String> nodeId;
 	String<String> followUser;
-	String<String> comments;
-	
+
+
 }
 
 class Node{
@@ -39,7 +38,7 @@ class Node{
 	String title;
 	String content;
 	Date createDate;
-	
+
 	String* writer;
 	Vector<String> likeBy;
 	String* story;
@@ -52,6 +51,8 @@ class Node{
 
 	Vector<String> quoteFrom;
 	Vector<String> quoteBy;
+
+	String<String> comments;
 }
 
 class Comment{
@@ -61,4 +62,3 @@ class Comment{
 	String text;
 	Date createDate;
 }
-
