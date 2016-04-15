@@ -7,6 +7,11 @@ while (!feof($handle)) {
 fclose($handle);
 $json = $content;
 $obj = json_decode($json,true);
+$follower=$obj[0]['follower'];
+$followee=$obj[0]['followee'];
+$NumOfFlollower=sizeof($follower);
+$NumOfFlollowee=sizeof($followee);
+$followStory=$obj[0]['followStory'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,12 +71,12 @@ $obj = json_decode($json,true);
             width: 100%;
         }
         .video-container video {
-            position: absolute;
+            position: fixed;
             z-index: 0;
             bottom: 0;
         }
         .video-container video.fillWidth {
-            width: 100%;
+           width: 100%;
         }
     </style>
     <script src="js/jquery.js"></script>
@@ -143,7 +148,7 @@ $obj = json_decode($json,true);
 
 </head>
 
-<body>
+<body >
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="height: 60px;">
         <div class="container">
@@ -179,10 +184,9 @@ $obj = json_decode($json,true);
             </div>
         </div>
     </nav>
-    <div class="homepage-hero-module">
+    <div class="homepage-hero-module" style="position: fixed;">
         <div class="video-container">
-            <div class="filter"></div>
-            <video autoplay loop class="fillWidth" style="opacity: 0.5;">
+            <video autoplay loop class="fillWidth" style="opacity: 0.7;">
                 <source src="MP4/Up.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
                 <source src="WEBM/Up.webm" type="video/webm" />Your browser does not support the video tag. I suggest you upgrade your browser.
             </video>
@@ -193,7 +197,7 @@ $obj = json_decode($json,true);
     </div>
 
     <!-- Page Content -->
-    <div class="container" style="position: relative;top:80px;">
+    <div class="container" style="position:relative;top:100px;">
 
         <!-- Page Heading/Breadcrumbs -->
         <div class="row" >
@@ -221,8 +225,8 @@ $obj = json_decode($json,true);
                     <div class="media-body">
                     <h2>
                        <?php echo $obj[0]['username']." ";?>
-                        <button type="button" class="btn btn-danger">Follower: </button>
-                        <button type="button" class="btn btn-success">Followee:</button>
+                        <button type="button" class="btn btn-danger">Follower: <?php echo $NumOfFlollower ?> </button>
+                        <button type="button" class="btn btn-success">Followee:  <?php echo $NumOfFlollowee ?></button>
                     </h2>
                     <p><i class="fa fa-clock-o"></i> <?php echo "last updated at: ".$obj[0]['lastUpdate']['iso'];?></p>
                     </div>
@@ -236,6 +240,9 @@ $obj = json_decode($json,true);
                 <p><i class="fa fa-clock-o"></i><?php  echo " Last updated at ".date("Y/m/d");?></p>
                 <hr>
                 <div class="row;">
+                    <?php
+                    foreach($followStory as $row):
+                    ?>
                     <div class="col-md-12">
                         <div class="panel panel-default " >
                             <div class="panel-heading">
@@ -246,7 +253,7 @@ $obj = json_decode($json,true);
                             <div class="panel-body">
                                 <table class="table table-striped">
                                     <tr>
-                                        <th width="30%" class="tap">Theme</th>
+                                        <th width="30%" class="tap">Title</th>
                                         <th width="70%">fantasy</th>
                                     </tr>
                                     <tr>
@@ -269,6 +276,9 @@ $obj = json_decode($json,true);
                             </div>
                         </div>
                     </div>
+                        <?php
+                    endforeach;
+                    ?>
                 </div>
                 <hr>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, quasi, fugiat, asperiores harum voluptatum tenetur a possimus nesciunt quod accusamus saepe tempora ipsam distinctio minima dolorum perferendis labore impedit voluptates!</p>
@@ -381,13 +391,12 @@ $obj = json_decode($json,true);
         </div>
         <!-- /.row -->
 
-        <hr>
 
         <!-- Footer -->
 
     </div>
     <!-- /.container -->
-    <div class="footer" style="position:relative;top:50px; ">
+    <div class="footer" style="position:relative; top:100px;">
         <div class="container">
             <div class="social">
                 <ul>
