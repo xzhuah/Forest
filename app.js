@@ -54,7 +54,7 @@ app.get('/', function(req, res) {
 //////////////////////////////////Our Functions Start here/////////////////////////////////////
 
 // get uer by username 
-app.get('/user/:username', function(req, res) {
+app.get('/user/:username', function(req, res) {////////////////OK
   var username = req.params.username;
   var userQuery = new AV.Query(AV.User);//choose table
   userQuery.equalTo('username', username);//Condition
@@ -71,8 +71,8 @@ app.get('/user/:username', function(req, res) {
 app.get('/user_email/:email', function(req, res) {
   var email = req.params.email;
   var EmailuserQuery = new AV.Query(AV.User);//choose table
-  userQuery.equalTo('email', email);//Condition
-  userQuery.find().then(function(user) {//quert
+  EmailuserQuery.equalTo('email', email);//Condition
+  EmailuserQuery.find().then(function(user) {//quert
     //found
     res.json(user);
   }).catch(function(error) {
@@ -84,11 +84,11 @@ app.get('/user_email/:email', function(req, res) {
 
 
 //Return comments by a nodeid
-app.get('/commentbynodeid/:nodeid',function(req,res){
+app.get('/commentbynodeid/:nodeid',function(req,res){////////OK
   var commentbynodeid=req.params.nodeid;
   var findCommentByNodeID=new AV.Query("Comment");
   findCommentByNodeID.equalTo('nodeID',commentbynodeid);
-  findClientByUsername.find().then(function(comments) {//quert
+  findCommentByNodeID.find().then(function(comments) {//quert
     //found
     res.json(comments);
   }).catch(function(error) {
@@ -98,8 +98,8 @@ app.get('/commentbynodeid/:nodeid',function(req,res){
 });
 
 //get node by id
-app.get('/node/:nodeid',function(req,res){
-  var querynodeid=res.params.nodeid;
+app.get('/node/:nodeid2',function(req,res){
+  var querynodeid=req.params.nodeid2;
   var findNodeByNodeID=new AV.Query("Node");
   findNodeByNodeID.get(querynodeid).then(function(obj){
     res.json(obj);
@@ -120,8 +120,8 @@ app.get('/theme',function(req,res){
 });
 
 //Get story by theme
-app.get('/storybythemeid/:themeid',function(req,res){
-var querystorybytheme=res.params.themeid;
+app.get('/storybythemeid/:themeid',function(req,res){////////OK
+var querystorybytheme=req.params.themeid;
 var findStoryBythemeID=new AV.Query("Story");
 findStoryBythemeID.equalTo("theme",querystorybytheme);
 
@@ -137,8 +137,8 @@ findStoryBythemeID.equalTo("theme",querystorybytheme);
 
 
 //find nodes by story id
-app.get('/nodebystoryid/:storyid',function(req,res){
-var querynodebystory=res.params.storyid;
+app.get('/nodebystoryid/:storyid',function(req,res){//////OK
+var querynodebystory=req.params.storyid;
 var findNodeByStoryID=new AV.Query("Node");
 findNodeByStoryID.equalTo("story",querynodebystory);
 
