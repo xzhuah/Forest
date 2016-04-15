@@ -98,7 +98,7 @@ app.get('/commentbynodeid/:nodeid',function(req,res){////////OK
 });
 
 //get node by id
-app.get('/node/:nodeid2',function(req,res){
+app.get('/node/:nodeid2',function(req,res){///////OK
   var querynodeid=req.params.nodeid2;
   var findNodeByNodeID=new AV.Query("Node");
   findNodeByNodeID.get(querynodeid).then(function(obj){
@@ -151,6 +151,7 @@ findNodeByStoryID.find().then(function(obj) {//quert
 });
 });
 
+/////////////////////Post ADD///////////////////////
 
 //////////////////////////////////Our Functions END here/////////////////////////////////////
 // 可以将一类的路由单独保存在一个文件中
