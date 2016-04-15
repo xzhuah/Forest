@@ -6,7 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var todos = require('./routes/todos');
 var cloud = require('./cloud');
-
+var AV = require('leanengine');
+AV.initialize('QdSwHCdXnUjjLLGhodgIWhe5-gzGzoHsz', 'bBT9v34EJ8hN6b4jpUre1YeF');
 var app = express();
 
 // 设置 view 引擎
@@ -48,6 +49,18 @@ app.use(function(req, res, next) {
 
 app.get('/', function(req, res) {
   res.render('index', { currentTime: new Date() });
+});
+
+// get username
+app.get('/user/:username', function(req, res) {
+  var username = req.params.username;
+  var userQuery = new AV.Query(AV.User);
+  userQuery.equalTo('username', username);
+  userQuery.find().then(function(user) {
+    res.json(user);
+  }).catch(function(error) {
+    res.json({success: false});
+  });
 });
 
 // 可以将一类的路由单独保存在一个文件中
