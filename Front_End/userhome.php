@@ -1,5 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+$handle = fopen("http://10.89.116.121:3000/user/cbai","rb");
+$content = "";
+while (!feof($handle)) {
+    $content .= fread($handle, 10000);
+}
+fclose($handle);
+$json = $content;
+$obj = json_decode($json,true);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -174,7 +182,7 @@
     <div class="homepage-hero-module">
         <div class="video-container">
             <div class="filter"></div>
-            <video autoplay loop class="fillWidth">
+            <video autoplay loop class="fillWidth" style="opacity: 0.5;">
                 <source src="MP4/Up.mp4" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
                 <source src="WEBM/Up.webm" type="video/webm" />Your browser does not support the video tag. I suggest you upgrade your browser.
             </video>
@@ -182,6 +190,8 @@
                 <img src="Snapshots/Up.jpg" alt="">
             </div>
         </div>
+    </div>
+
     <!-- Page Content -->
     <div class="container" style="position: relative;top:80px;">
 
@@ -210,9 +220,11 @@
                     <!-- First Blog Post -->
                     <div class="media-body">
                     <h2>
-                        Person Name
+                       <?php echo $obj[0]['username']." ";?>
+                        <button type="button" class="btn btn-danger">Follower: </button>
+                        <button type="button" class="btn btn-success">Followee:</button>
                     </h2>
-                    <p><i class="fa fa-clock-o"></i> Last logined on August 28, 2013 at 10:00 PM</p>
+                    <p><i class="fa fa-clock-o"></i> <?php echo "last updated at: ".$obj[0]['lastUpdate']['iso'];?></p>
                     </div>
                     <hr>
                 </div>
@@ -221,7 +233,7 @@
                 <h2>
                     <a href="#">What you have followed</a>
                 </h2>
-                <p><i class="fa fa-clock-o"></i> updated on August 28, 2013 at 10:45 PM</p>
+                <p><i class="fa fa-clock-o"></i><?php  echo " Last updated at ".date("Y/m/d");?></p>
                 <hr>
                 <div class="row;">
                     <div class="col-md-12">
@@ -284,7 +296,7 @@
                     <div class="input-group" style="position: relative;top:10px;">
                         <input type="text" class="form-control">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+                            <button class="btn btn-default" type="button"><i class="fa fa-search">Search</i></button>
                         </span>
                     </div>
                     <!-- /.input-group -->
