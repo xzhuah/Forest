@@ -18,8 +18,8 @@ while (!feof($handle)) {
 fclose($handle);
 $json = $content;
 $obj = json_decode($json,true);
-print_r($obj);
 ?>
+
 
 
 
