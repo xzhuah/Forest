@@ -1,10 +1,11 @@
 {
-  "name": "node-js-getting-started",
+  "name": "Forest",
   "version": "1.0.0",
-  "description": "A sample Node.js app using Express 4",
+  "description": "A distributed novel-writing platform",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "leancloud": "node leancloud-server.js"
   },
   "keywords": [
     "node",
