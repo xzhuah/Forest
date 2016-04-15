@@ -68,7 +68,7 @@ app.get('/user/:username', function(req, res) {////////////////OK
 });
 
 // get uer by email
-app.get('/user_email/:theemail', function(req, res) {
+app.get('/user_email/:theemail', function(req, res) {/////OK
   var theemail = req.params.theemail;
   var EmailuserQuery = new AV.Query(AV.User);//choose table
   EmailuserQuery.equalTo('email', theemail);//Condition
@@ -109,9 +109,9 @@ app.get('/node/:nodeid2',function(req,res){
 });
 
 //get all themes
-app.get('/theme',function(req,res){
+app.get('/theme',function(req,res){///////OK
    var findAllTheme=new AV.Query("Theme");
-   findAllTheme.get().then(function(obj){
+   findAllTheme.find().then(function(obj){
     res.json(obj);
    },function(error){
      res.json({success: false});
