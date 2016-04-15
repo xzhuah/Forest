@@ -1,7 +1,7 @@
 h4, h5, h6,
-h1, h2, h3 {margin: 0;}
+h1, h2, h3,th {margin: 0; font-family:Microsoft Yahei;}
 ul, ol {margin: 0;}
-p {margin: 0;}
+p {margin: 0;font-family:Microsoft Yahei;}
 body{
 	margin:0;
 	padding:0;
