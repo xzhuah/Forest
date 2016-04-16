@@ -37,10 +37,14 @@
 #nav_bar{
 	text-align:center;
 	padding-left:500px;
-	width:2000px;
+	width:102%;
 	background:#EEEEEE;
 	
 }
+#nav_frame{
+	width:400px;
+}
+
 .nav_area{
 	text-align:center;
 }
