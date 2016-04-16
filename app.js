@@ -235,6 +235,8 @@ app.get('/storybyuser/:userid',function(req,res){
 app.get('/beststory/:topnum',function(req,res){
   var topnum = req.params.topnum;
   var findStorybylikerank = new AV.Query('Story');
+  var creators = [];
+  findStorybylikerank.include('creator');
   findStorybylikerank.find().then(function(results) {
     results.sort(function(x, y) {
       if (x.get('followUser').length > y.get('followUser').length) {
@@ -248,7 +250,16 @@ app.get('/beststory/:topnum',function(req,res){
     if (topnum > results.length) {
       res.json({success: false, error: "topnum too large"});
     }
-    res.json({success: true, bestStory: results.slice(0, topnum)});
+    var bestStory = results.slice(0, topnum);
+    bestStory.map(function(story) {
+      creators.push(
+        {
+          id: story.get('creator').id,
+          username: story.get('creator').get('username')
+        }
+    );
+    });
+    res.json({success: true, bestStory: bestStory, creators: creators});
   }).catch(function(error) {
     res.json({success: false, error: error});
   });
@@ -293,12 +304,12 @@ app.post('/login', function(req, res) {
   var password = req.body.password;
   AV.User.logIn(username, password).then(function(success) {
     // 成功了，现在可以做其他事情了
-    res.sendFile('index.html', { root: path.join(__dirname, '../public') });
-    res.json({success: true, user: AV.User.current()});
+    res.redirect('/');
+    //res.json({success: true, user: AV.User.current()});
   }, function(error) {
     // 失败了
-    res.sendFile('login.html', { root: path.join(__dirname, '../public') });
-    res.json({success: false, error: error});
+    res.redirect('/login');
+    //res.json({success: false, error: error});
   });
 });
 
