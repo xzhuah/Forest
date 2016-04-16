@@ -169,6 +169,8 @@ $needLogin=false;
         <h1 style="text-align:center"><?php echo $nodeTitle?></h1>
         <hr style="background:#000000"/>	
       </div>
+      
+      
       <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="false">
         <ol class="carousel-indicators">
         <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
@@ -207,6 +209,9 @@ $needLogin=false;
         </a>
       </div>
     </div> <!-- /container -->
+    
+    
+    
    
 </div>
 </div>
