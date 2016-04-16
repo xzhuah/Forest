@@ -19,11 +19,14 @@ $canLike=false;
 
  if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $nodeID = $_GET["nodeid"];                                                      //$nodeID->     Current Node ID
-    $storyTitle=$_GET["storytitle"];                                                //$storyTitle-> Story title
+   
     $obj=getHtml("http://10.89.116.121:3000/node/".$nodeID); 
      $obj= $obj["node"];                                                              //$obj->        The Node Object
     $storyid=$obj["story"]["objectId"];
-                           
+    $story=getHtml("http://10.89.116.121:3000/story/".$storyid);
+    $story=$story["story"];
+    
+    $storyTitle=$story["title"];               
     $nodeTitle=$obj["title"];                                                       //$nodeTitle->  Node title
     $nodeContent=$obj["content"];                                                   //$nodeContent->Node Content
     $createTime=$obj["createdAt"];                                                 //$createTime-> Create time of the node 
