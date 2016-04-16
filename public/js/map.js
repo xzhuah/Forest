@@ -44,7 +44,9 @@ $.ajax({
             return e.objectId == value.objectId
         })[0];
         value.contentPreview = result.content.substr(0, 300) + "...";
-        value.likeByNum = result.likeBy.length;
+        value.likeByNum = 0;
+        if (!!result.likeBy)
+            result.likeBy.length;
         value.title = result.title;
         $.ajax({
             // url: "https://forest-novel.herokuapp.com/userid/57109ca879bc44005f759c57",
