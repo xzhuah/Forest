@@ -211,7 +211,7 @@ app.post('/login', function(req, res) {
   var password = req.body.password;
   AV.User.logIn(username, password).then(function(success) {
     // 成功了，现在可以做其他事情了
-    res.json(success: true, user, AV.User.current());
+    res.json({success: true, user, AV.User.current()});
   }, function(error) {
     // 失败了
     res.json({success: false, error: error});
