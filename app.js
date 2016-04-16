@@ -52,6 +52,16 @@ app.get('/', function(req, res) {
 });
 
 //////////////////////////////////Our Functions Start here/////////////////////////////////////
+//get user by userID
+app.get('/userid/:userid',function(req,res){
+  var userID=req.params.userid;
+   var findUserById=new AV.Query(AV.User);
+  findUserById.get(userID).then(function(obj){
+    res.json(obj);
+  },function(error){
+     res.json({success: false});
+  });
+});
 
 // get uer by usernpame
 app.get('/user/:username', function(req, res) {////////////////OK
@@ -108,6 +118,35 @@ app.get('/node/:nodeid2',function(req,res){///////OK
      res.json({success: false});
   });
 });
+
+//get node by parent node id
+app.get("/nodechild/:parentid",function(req,res){
+
+  var queryparentid=req.params.parentid;
+   var findNodeByParent=new AV.Query("Node");
+   findNodeByParent.get(queryparentid).then(function(objs){
+       
+        var findNodeByParentID=new AV.Query("Node");
+  findNodeByParentID.equalTo("developFrom",objs);
+  findNodeByParentID.find().then(function(objjs) {//quert
+    //found
+    res.json(objjs);
+  }).catch(function(error) {
+    //failed
+    res.json({success: false});
+  });
+    
+
+
+   },function(error){
+     res.json({success: false});
+  });
+
+
+ 
+});
+
+
 
 //get all themes
 app.get('/theme',function(req,res){///////OK
