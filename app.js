@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var todos = require('./routes/todos');
 var cloud = require('./cloud');
 var AV = require('leanengine');
+var request = require("request");
+var async = require('async');
 AV.initialize('QdSwHCdXnUjjLLGhodgIWhe5-gzGzoHsz', 'bBT9v34EJ8hN6b4jpUre1YeF');
 var app = express();
 
@@ -317,7 +319,7 @@ app.post('/login', function(req, res) {
   var password = req.body.password;
   AV.User.logIn(username, password).then(function(success) {
     // 成功了，现在可以做其他事情了
-    res.redirect('/');
+    res.redirect('/userhome');
     //res.json({success: true, user: AV.User.current()});
   }, function(error) {
     // 失败了
@@ -332,6 +334,64 @@ app.get('/node/:storyId/:writerId/:developFrom/;linkTo', function(req, res) {
   var newNode = new Node();
 });
 app.get('/story/theme', function(req, res) {
+});
+
+app.get('/userhome', function(req, res) {
+  var url1 = 'https://forest-novel.herokuapp.com' + '/user/' + 'cbai';
+  var user;
+  var storyArray;
+  var topRatedArray;
+  async.series([
+      function(callback) {
+        console.log("first");
+        request({
+            url: url1,
+            json: true
+        }, function (error, response, body) {
+            //var url2 = ;
+            console.log(error);
+            if (!error && response.statusCode === 200) {
+                user = body['user'];
+                console.log(user);
+            }
+            callback();
+        });
+
+    	},
+    	function(callback) {
+        console.log("second");
+        console.log(user[0].objectId);
+        request({
+            url: 'https://forest-novel.herokuapp.com' + '/storybyuser/' + user[0].objectId,
+            json: true
+        }, function (error, response, body) {
+
+            if (!error && response.statusCode === 200) {
+                storyArray = body;
+                console.log(storyArray['story'][0].followUser);
+            }
+            callback();
+        });
+
+    	},
+      function(callback) {
+        console.log("third");
+        request({
+            url: 'https://forest-novel.herokuapp.com' + '/beststory/' + '1',
+            json: true
+        }, function (error, response, body) {
+
+            if (!error && response.statusCode === 200) {
+                topRatedArray = body;
+                console.log(topRatedArray);
+            }
+            callback();
+        });
+      }
+    ],function(err, results) {
+    	console.log(results);
+      res.render('userhome', {storyArray: storyArray, topRatedArray: topRatedArray, user: user});
+    });
 });
 /////////////////////Post ADD///////////////////////
 
