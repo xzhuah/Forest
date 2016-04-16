@@ -48,7 +48,7 @@ app.use(function(req, res, next) {
 });
 
 app.get('/', function(req, res) {
-  res.render('index', { currentTime: new Date() });
+  res.sendFile('index.html', { root: path.join(__dirname, '../public') });
 });
 
 //////////////////////////////////Our Functions Start here/////////////////////////////////////
@@ -124,7 +124,7 @@ app.get('/theme',function(req,res){///////OK
    findAllTheme.find().then(function(obj){
     res.json({success: true, theme: obj});
    },function(error){
-     res.json({success: false});
+     res.json({success: false, error: error});
    });
 
 });
@@ -265,7 +265,7 @@ app.get('/story/theme', function(req, res) {
 
 //////////////////////////////////Our Functions END here/////////////////////////////////////
 // 可以将一类的路由单独保存在一个文件中
-app.use('/todos', todos);
+//app.use('/todos', todos);
 
 // 如果任何路由都没匹配到，则认为 404
 // 生成一个异常让后面的 err handler 捕获
