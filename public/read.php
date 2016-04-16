@@ -22,7 +22,8 @@ $canLike=false;
     $storyTitle=$_GET["storytitle"];                                                //$storyTitle-> Story title
     $obj=getHtml("http://10.89.116.121:3000/node/".$nodeID); 
      $obj= $obj["node"];                                                              //$obj->        The Node Object
-                                            
+    $storyid=$obj["story"]["objectId"];
+                           
     $nodeTitle=$obj["title"];                                                       //$nodeTitle->  Node title
     $nodeContent=$obj["content"];                                                   //$nodeContent->Node Content
     $createTime=$obj["createdAt"];                                                 //$createTime-> Create time of the node 
@@ -206,7 +207,7 @@ $canLike=false;
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
                 <li class="active">
-                    <a href="#"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    <a href="map.php?id=<?php echo $storyid ?>"><i class="fa fa-fw fa-dashboard"></i>Return Story</a>
                 </li>
                 <li>
                     <a href="author.html"><i class="fa fa-fw fa-bar-chart-o"></i> Author:<?php echo $writer["username"];?></a>
