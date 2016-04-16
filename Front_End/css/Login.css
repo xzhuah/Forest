@@ -81,6 +81,7 @@ body {
     font-family: Montserrat;
     outline: none;
     cursor: pointer;
+    padding-left: 20px;
 }
 
 .login-block button:hover {

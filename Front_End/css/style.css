@@ -52,9 +52,9 @@ ul.nav.navbar-nav.navbar-right.margin-top {
     
     position: absolute;
     top:0;
-    bottom: 30%;
+    bottom: 35%;
     left: 0;
-    right: 15%;
+    right: 11%;
 
     margin: auto;
 }
@@ -64,9 +64,9 @@ ul.nav.navbar-nav.navbar-right.margin-top {
     
     position: absolute;
     top:0;
-    bottom: 10%;
+    bottom: 18%;
     left: 0;
-    right: 17%;
+    right: 15%;
 
     margin: auto;
 }
@@ -83,10 +83,10 @@ ul.nav.navbar-nav.navbar-right.margin-top {
     width: 100px;
     height: 100px;
     position: absolute;
-    top:15%;
+    top:10%;
     bottom: 0;
     left: 0;
-    right: 25%;
+    right: 23%;
     margin: auto;
 }
 
@@ -146,7 +146,7 @@ ul.nav.navbar-nav.navbar-right.margin-top {
     border: 1px solid #21D176;
 }
 
-.login-block button {
+#submit {
     width: 100%;
     height: 40px;
     background: #21D176;
@@ -160,6 +160,7 @@ ul.nav.navbar-nav.navbar-right.margin-top {
     font-family: Montserrat;
     outline: none;
     cursor: pointer;
+    padding-left: 20px;
 }
 
 .login-block button:hover {
