@@ -208,17 +208,23 @@ app.get('/storybyuser/:userid',function(req,res){
   var findStoryIdByUserID=new AV.Query(AV.User);
   var innerQuery = new AV.Query('Story');
   innerQuery.include('theme');
+  innerQuery.include('creator');
   var stories = [];
   var themeNames = [];
+  var creators = [];
   findStoryIdByUserID.get(querystoryidbyuser).then(function(obj){
     innerQuery.find().then(function(results) {
       results.map(function(result) {
         if (result.get('followUser').indexOf(querystoryidbyuser) > -1) {
           themeNames.push(result.get('theme').get('name'));
+          creators.push({
+            id: result.get('creator').id,
+            username: result.get('creator').get('username')
+          });
           stories.push(result);
         }
       });
-      res.json({success: true, story: stories, themeNames: themeNames});
+      res.json({success: true, story: stories, themeNames: themeNames, creators: creators});
     });
   },function(error){
      res.json({success: false, error: error});
