@@ -1,5 +1,5 @@
 <!--This page need to valuable in get request to initialize, nodeid and story.-->
-
+<!--http://10.89.116.121:8080/hackUST/Forest/public/read.php?nodeid=5710c6d771cfe4005b0c2473&title=Hello&storytitle=Three%20Body-->
 <?php
 //helper function to get json object from a url
 function getHtml($url){
