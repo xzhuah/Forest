@@ -175,7 +175,7 @@ app.get('/storybyuser/:userid',function(req,res){
           stories[result.get('id')] = result;
         }
       });
-      res.json({success: true, story: JSON.stringify(stories)});
+      res.json({success: true, story: stories});
     });
   },function(error){
      res.json({success: false, error: error});
