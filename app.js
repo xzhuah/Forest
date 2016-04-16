@@ -298,6 +298,7 @@ app.post('/comment/:nodeId/:userId', function(req, res) {
     res.json({success: false, error: error});
   });
 });
+
 app.post('/signup', function(req, res) {
   var email = req.body.email;
   var username = req.body.username;
@@ -314,6 +315,7 @@ app.post('/signup', function(req, res) {
     res.json({success: false, error: error});
   });
 });
+
 app.post('/login', function(req, res) {
   var username = req.body.username;
   var password = req.body.password;
@@ -327,6 +329,7 @@ app.post('/login', function(req, res) {
     //res.json({success: false, error: error});
   });
 });
+
 app.get('/node/:storyId/:writerId/:developFrom/;linkTo', function(req, res) {
   var developFrom = req.params.developFrom;
   var linkTo = req.params.linkTo;

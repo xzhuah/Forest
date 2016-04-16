@@ -1,9 +1,8 @@
-<?php
-$handle = fopen("http://10.89.116.121:3000/user/cbai","rb");
-<<<<<<< Updated upstream
+<<<<<<< HEAD:Front_End/userhome.html
 =======
+<?php
+//$handle = fopen("http://10.89.116.121:3000/user/cbai","rb");
 $handle = fopen("https://forest-novel.herokuapp.com/user/cbai","rb");
->>>>>>> Stashed changes
 $content = "";
 while (!feof($handle)) {
     $content .= fread($handle, 10000);
@@ -11,12 +10,29 @@ while (!feof($handle)) {
 fclose($handle);
 $json = $content;
 $obj = json_decode($json,true);
-$follower=$obj[0]['follower'];
-$followee=$obj[0]['followee'];
+$follower=$obj["user"][0]['follower'];
+$followee=$obj["user"][0]['followee'];
 $NumOfFlollower=sizeof($follower);
 $NumOfFlollowee=sizeof($followee);
-$followStory=$obj[0]['followStory'];
+//-- story request
+$storyURL="https://forest-novel.herokuapp.com/storybyuser/".$obj["user"][0]['objectId'];
+$story = fopen($storyURL,"rb");
+$storyContent="";
+while (!feof($story)) {
+    $storyContent .= fread($story, 10000);
+}
+$storyArray = json_decode($storyContent,true);
+//-- top rated request
+$topRatedURL="https://forest-novel.herokuapp.com/beststory/1";
+$topRated= fopen($topRatedURL,"rb");
+$topRatedContent="";
+while (!feof($topRated)) {
+    $topRatedContent .= fread($topRated, 10000);
+}
+$topREatedArray = json_decode($topRatedContent,true);
+$counter=0;
 ?>
+>>>>>>> origin/dev:Front_End/userhome.php
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -192,8 +208,6 @@ $followStory=$obj[0]['followStory'];
             </div>
         </div>
     </nav>
-
-
     <div class="homepage-hero-module" style="position: fixed;">
         <div class="video-container">
             <video autoplay loop class="fillWidth" style="opacity: 0.8;">
@@ -234,65 +248,62 @@ $followStory=$obj[0]['followStory'];
                     <!-- First Blog Post -->
                     <div class="media-body">
                     <h2>
-                       <?php echo $obj[0]['username']." ";?>
+                       <?php echo $obj["user"][0]['username']." ";?>
                         <button type="button" class="btn btn-danger">Follower: <?php echo $NumOfFlollower ?> </button>
                         <button type="button" class="btn btn-success">Followee:  <?php echo $NumOfFlollowee ?></button>
                     </h2>
-                    <p><i class="fa fa-clock-o"></i> <?php echo "last updated at: ".$obj[0]['lastUpdate']['iso'];?></p>
+                    <p><i class="fa fa-clock-o"></i> <?php echo "last updated at: ".$obj["user"][0]['lastUpdate']['iso'];?></p>
                     </div>
                     <hr>
                 </div>
 
                 <!-- Second Blog Post -->
                 <h2>
-                    <a href="#">What you have followed</a>
+                    What you have followed
                 </h2>
                 <p><i class="fa fa-clock-o"></i><?php  echo " Last updated at ".date("Y/m/d");?></p>
                 <hr>
                 <div class="row;">
                     <?php
-<<<<<<< Updated upstream
-                    foreach($followStory as $row):
-=======
                     foreach($storyArray["story"] as $row):
                     $NumOfFlollowerOfStory=sizeof($row["followUser"]);
 
->>>>>>> Stashed changes
                     ?>
                     <div class="col-md-12">
                         <div class="panel panel-default " >
                             <div class="panel-heading">
                                 <h3 style="top: 10px;position: relative;">
-                                   <a href="#"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> Novel Title</a>
+                                   <a href="#"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> <?php echo $row["title"] ?></a>
                                 </h3>
                             </div>
                             <div class="panel-body">
                                 <table class="table table-striped">
                                     <tr>
-                                        <th width="30%" class="tap">Title</th>
-                                        <th width="70%">fantasy</th>
+                                        <th width="30%" class="tap">Theme</th>
+                                        <th width="70%"><?php echo  $storyArray["themeNames"][$counter]?></th>
                                     </tr>
                                     <tr>
                                         <th width="30%">Creator</th>
-                                        <th width="70%">ZHU Xinyu </th>
+                                        <th width="70%"><?php echo  $storyArray["creators"][$counter]["username"]?></th>
                                     </tr>
                                     <tr>
                                         <th width="30%">Created date</th>
-                                        <th width="70%">August 28, 2013 at 10:00 PM</th>
+                                        <th width="70%"><?php echo $row["createdAt"] ?></th>
                                     </tr>
                                     <tr>
                                         <th width="30%">last update</th>
-                                        <th width="70%">August 28, 2013 at 10:00 PM</th>
+                                        <th width="70%"><?php echo $row["updatedAt"] ?></th>
                                     </tr>
                                     <tr>
                                         <th width="30%">current contributor</th>
-                                        <th width="70%">20</th>
+                                        <th width="70%"><?php echo $NumOfFlollowerOfStory?></th>
                                     </tr>
                                 </table>
                             </div>
                         </div>
                     </div>
                         <?php
+                        $counter++;
                     endforeach;
                     ?>
                 </div>
@@ -365,14 +376,16 @@ $followStory=$obj[0]['followStory'];
                     <div class="col-lg-12">
                         <h2 class="page-header">Recommandations</h2>
                     </div>
-
+                    <?php
+                    $counter=0;
+                    foreach($topREatedArray["bestStory"] as $topTateRow): ?>
                     <div class="col-md-12 text-center">
                         <div class="thumbnail">
                             <div class="caption">
-                                <h3>John Smith<br>
-                                    <small>Job Title</small>
+                                <h3> <?php echo $topTateRow["title"] ?><br>
+                                    <small><?php echo "--- by ".$topREatedArray["creators"][0]["username"]?></small>
                                 </h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste saepe et quisquam nesciunt maxime.</p>
+                                <p> <?php echo $topTateRow["introduction"] ?></p>
                                 <ul class="list-inline">
                                     <li><a href="#"><i class="fa fa-2x fa-facebook-square"></i></a>
                                     </li>
@@ -384,24 +397,9 @@ $followStory=$obj[0]['followStory'];
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12 text-center">
-                        <div class="thumbnail">
-                            <div class="caption">
-                                <h3>John Smith<br>
-                                    <small>Job Title</small>
-                                </h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste saepe et quisquam nesciunt maxime.</p>
-                                <ul class="list-inline">
-                                    <li><a href="#"><i class="fa fa-2x fa-facebook-square"></i></a>
-                                    </li>
-                                    <li><a href="#"><i class="fa fa-2x fa-linkedin-square"></i></a>
-                                    </li>
-                                    <li><a href="#"><i class="fa fa-2x fa-twitter-square"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+                    <?php
+                    $content++;
+                    endforeach;?>
                 </div>
             </div>
         </div>
