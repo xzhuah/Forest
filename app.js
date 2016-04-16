@@ -258,10 +258,10 @@ app.get('/beststory/:topnum',function(req,res){//OK 2016/4/16
   findStorybylikerank.include('creator');
   findStorybylikerank.find().then(function(results) {
     results.sort(function(x, y) {
-      if (x.get('followUser').length > y.get('followUser').length) {
+      if (x.get('followUser') != undefined && y.get('followUser') != undefined && x.get('followUser').length > y.get('followUser').length) {
         return -1;
       }
-      if (x.get('followUser').length < y.get('followUser').length) {
+      if (x.get('followUser') != undefined && y.get('followUser') != undefined && x.get('followUser').length < y.get('followUser').length) {
         return 1;
       }
       return 0;
@@ -367,6 +367,7 @@ app.get('/userhome', function(req, res) {
 app.get('/userlike/:userId/:nodeId', function(req, res) {
   var userId = req.params.userId;
   var nodeId = req.params.nodeId;
+
 });
 /////////////////////Post ADD///////////////////////
 app.post('/comment/:nodeId/:userId', function(req, res) {
