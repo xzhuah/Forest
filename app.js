@@ -7,8 +7,12 @@ var bodyParser = require('body-parser');
 var todos = require('./routes/todos');
 var cloud = require('./cloud');
 var AV = require('leanengine');
+var request = require("request");
+var async = require('async');
+var cors = require('cors');
 AV.initialize('QdSwHCdXnUjjLLGhodgIWhe5-gzGzoHsz', 'bBT9v34EJ8hN6b4jpUre1YeF');
 var app = express();
+
 
 // 设置 view 引擎
 app.set('views', path.join(__dirname, 'views'));
@@ -25,7 +29,7 @@ app.use(cloud);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
+app.use(cors());
 // 未处理异常捕获 middleware
 app.use(function(req, res, next) {
   var d = null;
@@ -161,7 +165,7 @@ app.get('/story/:storyId', function(req, res) {//OK 2016/4/16
 });
 
 //get all themes
-app.get('/theme',function(req,res){///////OK
+app.get('/theme',function(req,res){//OK 2016/4/16
    var findAllTheme=new AV.Query('Theme');
    findAllTheme.find().then(function(obj){
     res.json({success: true, theme: obj});
@@ -194,22 +198,30 @@ app.get('/storybythemeid/:themeid',function(req, res){//OK 2016/4/16
 
 
 //find nodes by story id
-app.get('/nodebystoryid/:storyid',function(req,res){//////OK
+app.get('/nodebystoryid/:storyid',function(req,res){//OK 2016/4/16
 var querynodebystory=req.params.storyid;
-var findNodeByStoryID=new AV.Query('Node');
-findNodeByStoryID.equalTo('story',querynodebystory);
-findNodeByStoryID.find().then(function(obj) {//quert
+var findStoryFirst=new AV.Query('Story');
+findStoryFirst.get(querynodebystory).then(function(obj){
+  var findNodeByStoryID=new AV.Query('Node');
+  findNodeByStoryID.equalTo('story',obj);
+
+  findNodeByStoryID.find().then(function(obj) {//quert
   //found
   res.json(obj);
 }).catch(function(error) {
   //failed
   res.json({success: false});
 });
+
+},function(error){
+  res.json({success: false});
 });
 
-/*
+});
+
+
 //search story by userid
-app.get('/storybyuser/:userid',function(req,res){
+app.get('/storybyuser/:userid',function(req,res){//OK 2016/4/16
   var querystoryidbyuser=req.params.userid;
   var findStoryIdByUserID=new AV.Query(AV.User);
   var innerQuery = new AV.Query('Story');
@@ -221,7 +233,7 @@ app.get('/storybyuser/:userid',function(req,res){
   findStoryIdByUserID.get(querystoryidbyuser).then(function(obj){
     innerQuery.find().then(function(results) {
       results.map(function(result) {
-        if (result.get('followUser').indexOf(querystoryidbyuser) > -1) {
+        if (result.get('followUser') != undefined && result.get('followUser').indexOf(querystoryidbyuser) > -1) {
           themeNames.push(result.get('theme').get('name'));
           creators.push({
             id: result.get('creator').id,
@@ -237,18 +249,19 @@ app.get('/storybyuser/:userid',function(req,res){
   });
 });
 
+
 //Search Story by likenumber ranking
-app.get('/beststory/:topnum',function(req,res){
+app.get('/beststory/:topnum',function(req,res){//OK 2016/4/16
   var topnum = req.params.topnum;
   var findStorybylikerank = new AV.Query('Story');
   var creators = [];
   findStorybylikerank.include('creator');
   findStorybylikerank.find().then(function(results) {
     results.sort(function(x, y) {
-      if (x.get('followUser').length > y.get('followUser').length) {
+      if (x.get('followUser') != undefined && y.get('followUser') != undefined && x.get('followUser').length > y.get('followUser').length) {
         return -1;
       }
-      if (x.get('followUser').length < y.get('followUser').length) {
+      if (x.get('followUser') != undefined && y.get('followUser') != undefined && x.get('followUser').length < y.get('followUser').length) {
         return 1;
       }
       return 0;
@@ -271,6 +284,169 @@ app.get('/beststory/:topnum',function(req,res){
   });
 });
 
+app.post('/signup', function(req, res) {
+  var email = req.body.email;
+  var username = req.body.username;
+  var password = req.body.password;
+  var user = new AV.User();
+  user.set('username', username);
+  user.set('password', password);
+  user.set('email', email);
+  user.signUp().then(function(user) {
+    // 注册成功，可以使用了
+    res.json({success: true, user: user});
+  }, function(error) {
+    // 失败了
+    res.json({success: false, error: error});
+  });
+});
+
+app.post('/login', function(req, res) {
+  var username = req.body.username;
+  var password = req.body.password;
+  AV.User.logIn(username, password).then(function(success) {
+    // 成功了，现在可以做其他事情了
+    //res.redirect('/userhome');
+    res.json({success: true, user: AV.User.current()});
+  }, function(error) {
+    // 失败了
+    //res.redirect('/login');
+    res.json({success: false, error: error});
+  });
+});
+
+app.get('/userhome', function(req, res) {
+  var url1 = 'https://forest-novel.herokuapp.com' + '/user/' + 'cbai';
+  var user;
+  var storyArray;
+  var topRatedArray;
+  async.series([
+      function(callback) {
+        request({
+            url: url1,
+            json: true
+        }, function (error, response, body) {
+            //var url2 = ;
+            if (!error && response.statusCode === 200) {
+                user = body['user'];
+            }
+            callback();
+        });
+
+    	},
+    	function(callback) {
+        request({
+            url: 'https://forest-novel.herokuapp.com' + '/storybyuser/' + user[0].objectId,
+            json: true
+        }, function (error, response, body) {
+
+            if (!error && response.statusCode === 200) {
+                storyArray = body;
+            }
+            callback();
+        });
+
+    	},
+      function(callback) {
+        request({
+            url: 'https://forest-novel.herokuapp.com' + '/beststory/' + '1',
+            json: true
+        }, function (error, response, body) {
+
+            if (!error && response.statusCode === 200) {
+                topRatedArray = body;
+            }
+            callback();
+        });
+      }
+    ],function(err, results) {
+      res.render('userhome', {storyArray: storyArray, topRatedArray: topRatedArray, user: user});
+    });
+});
+
+app.get('/userlike/:userId/:nodeId', function(req, res) {
+  var userId = req.params.userId;
+  var nodeId = req.params.nodeId;
+  if (userId == undefined || nodeId == undefined) {
+    res.json({success: false, error: "invalid arguments"});
+  }
+  var nodeQuery = new AV.Query('Node');
+  nodeQuery.get(nodeId).then(function(node) {
+    if (node.get('likeBy') == undefined) {
+      node.set('likeBy', [userId]);
+    } else {
+      var new_arr = node.get('likeBy');
+      new_arr.push(userId);
+      node.set('likeBy', new_arr);
+    }
+    return node.save();
+  }).then(function(success) {
+    res.json({success: true, node: success});
+  }).catch(function(error) {
+    res.json({success: false, error: error});
+  });
+});
+
+app.get('/userfollowstory/:storyId/:userId', function(req, res) {
+  var storyId = req.params.storyId;
+  var userId = req.params.userId;
+  if (storyId == undefined || userId == undefined) {
+    res.json({success: false, error: "invalid arguments"});
+  }
+  var storyQuery = new AV.Query('Story');
+  storyQuery.get(storyId).then(function(story) {
+    if (story.get('followUser') == undefined) {
+      story.set('followUser', [userId]);
+    } else {
+      var new_arr = story.get('followUser');
+      new_arr.push(userId);
+      story.set('followUser', new_arr);
+    }
+    return story.save();
+  }).then(function(success) {
+    res.json({success: true, story: success});
+  }).catch(function(error) {
+    res.json({success: false, error: error});
+  });
+});
+
+app.get('/userfollowuser/:followerId/:followeeId', function(req, res) {
+  var followerId = req.params.followerId;
+  var followeeId = req.params.followeeId;
+  if (followerId == undefined || followeeId == undefined) {
+    res.json({success: false, error: "invalid arguments"});
+  }
+  var userQuery = new AV.Query(AV.User);
+  userQuery.get(followerId).then(function(follower) {
+    if (follower.get('followee') == undefined) {
+      follower.set('followee', [followeeId]);
+    } else {
+      var new_arr = story.get('followee');
+      new_arr.push(followeeId);
+      follower.set('followee', new_arr);
+    }
+    return follower.save();
+  }).then(function(success) {
+    userQuery = new AV.Query(AV.User);
+    userQuery.get(followeeId).then(function(followee) {
+      if (followee.get('follower') == undefined) {
+        followee.set('follower', [followerId]);
+      } else {
+        var new_arr = story.get('follower');
+        new_arr.push(followerId);
+        follower.set('follower', new_arr);
+      }
+      return follower.save();
+    }).then(function(success) {
+      res.json({success: true, story: success});
+    }).catch(function(error) {
+      res.json({success: false, error: error});
+    });
+  }).catch(function(error) {
+    res.json({success: false, error: error});
+  });
+});
+/////////////////////Post ADD///////////////////////
 app.post('/comment/:nodeId/:userId', function(req, res) {
   var commentContent = req.body.commentContent;
   var userId = req.params.userId;
@@ -287,50 +463,87 @@ app.post('/comment/:nodeId/:userId', function(req, res) {
   });
 });
 
-app.post('/signup', function(req, res) {
-  var email = req.body.email;
-  var username = req.body.username;
-  var password = req.body.password;
-  var user = new AV.User();
-  user.set('username', username);
-  user.set('password', password);
-  user.set('email', email);
-
-  user.signUp().then(function(user) {
-    // 注册成功，可以使用了
-    res.json({success: true, user: user});
-  }, function(error) {
-    // 失败了
+app.post('/node', function(req, res) {
+  var developFrom = req.body.developFrom;
+  var linkTo = req.body.linkTo;
+  var content = req.body.nodeContent;
+  var title = req.body.nodeTitle;
+  var story = req.body.story;
+  var writer = req.body.writer;
+  if (content == undefined || title == undefined || story == undefined || writer == undefined) {
+    res.json({success: false, error: "parameter incomplete"});
+  }
+  var Node = AV.Object.extend('Node');
+  var newNode = new Node();
+  newNode.set('content', content);
+  newNode.set('title', title);
+  var nodeQuery = new AV.Query('Node');
+  if (developFrom != undefined) {
+    newNode.set('developFrom', developFrom);
+    nodeQuery.get(developFrom).then(function(foundDevelopFrom) {
+      developFrom = foundDevelopFrom;
+    }).catch(function(error) {
+      res.json({success: false, error: error});
+    });
+  }
+  nodeQuery = new AV.Query('Node');
+  if (linkTo != undefined) {
+    newNode.set('linkTo', linkTo);
+    nodeQuery.get(linkTo).then(function(foundLinkTo) {
+      linkTo = foundLinkTo;
+    }).catch(function(error) {
+      res.json({success: false, error: error});
+    });
+  }
+  var storyQuery = new AV.Query('Story');
+  storyQuery.get(story).then(function(sto) {
+    story = sto;
+  }).catch(function(error) {
+    res.json({success: false, error: error});
+  });
+  var writerQuery = new AV.Query(AV.User);
+  writerQuery.get(writer).then(function(wri) {
+    writer = wri;
+  }).catch(function(error) {
+    res.json({success: false, error: error});
+  });
+  newNode.set('story', story);
+  newNode.set('writer', writer);
+  newNode.save().then(function(node) {
+    res.json({success: true, node: node});
+  }).catch(function(error) {
     res.json({success: false, error: error});
   });
 });
 
-app.post('/login', function(req, res) {
-  var username = req.body.username;
-  var password = req.body.password;
-  AV.User.logIn(username, password).then(function(success) {
-    // 成功了，现在可以做其他事情了
-    res.redirect('/');
-    //res.json({success: true, user: AV.User.current()});
-  }, function(error) {
-    // 失败了
-    res.redirect('/login');
-    //res.json({success: false, error: error});
+app.post('/story', function(req, res) {
+  var creator = req.body.creator;
+  var title = req.body.storyTitle;
+  var theme = req.body.theme;
+  var intro = req.body.intro;
+  if (creator == undefined || title == undefined || theme == undefined || intro == undefined) {
+    res.json({success: false, error: "parameter incomplete"});
+  }
+  //update theme
+  var themeQuery = new AV.Query('Theme');
+  themeQuery.get(theme).then(function(getTheme) {
+      theme = getTheme;
+  }).catch(function(error) {
+    res.json({success: false, error: error});
   });
+  var writerQuery = new AV.Query(AV.User);
+  writerQuery.get(writer).then(function(wri) {
+    creator = wri;
+  }).catch(function(error) {
+    res.json({success: false, error: error});
+  });
+  var Story = AV.Object.extend('Story');
+  var newStory = new Story();
+  newStory.set('creator', creator);
+  newStory.set('title', title);
+  newStory.set('theme', theme);
+  newStory.set('introduction', intro);
 });
-
-app.get('/node/:storyId/:writerId/:developFrom/;linkTo', function(req, res) {
-  var developFrom = req.params.developFrom;
-  var linkTo = req.params.linkTo;
-  var Node = AV.Object.extend('Node');
-  var newNode = new Node();
-});
-
-app.get('/story/theme', function(req, res) {
-
-});
-/////////////////////Post ADD///////////////////////
-*/
 //////////////////////////////////Our Functions END here/////////////////////////////////////
 // 可以将一类的路由单独保存在一个文件中
 //app.use('/todos', todos);

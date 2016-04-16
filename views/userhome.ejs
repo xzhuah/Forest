@@ -1,35 +1,3 @@
-<?php
-//$handle = fopen("http://10.89.116.121:3000/user/cbai","rb");
-$handle = fopen("https://forest-novel.herokuapp.com/user/cbai","rb");
-$content = "";
-while (!feof($handle)) {
-    $content .= fread($handle, 10000);
-}
-fclose($handle);
-$json = $content;
-$obj = json_decode($json,true);
-$follower=$obj["user"][0]['follower'];
-$followee=$obj["user"][0]['followee'];
-$NumOfFlollower=sizeof($follower);
-$NumOfFlollowee=sizeof($followee);
-//-- story request
-$storyURL="https://forest-novel.herokuapp.com/storybyuser/".$obj["user"][0]['objectId'];
-$story = fopen($storyURL,"rb");
-$storyContent="";
-while (!feof($story)) {
-    $storyContent .= fread($story, 10000);
-}
-$storyArray = json_decode($storyContent,true);
-//-- top rated request
-$topRatedURL="https://forest-novel.herokuapp.com/beststory/1";
-$topRated= fopen($topRatedURL,"rb");
-$topRatedContent="";
-while (!feof($topRated)) {
-    $topRatedContent .= fread($topRated, 10000);
-}
-$topREatedArray = json_decode($topRatedContent,true);
-$counter=0;
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,61 +10,7 @@ $counter=0;
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="css/style.css" rel="stylesheet" type="text/css">
-    <style>
-        pre {
-            border: 1px grey dotted;
-            padding: 1em;
-        }
-        #bs-example-navbar-collapse-1{
-            position: relative;
-            top:5px;
-        }
-        .collapse li a{
-            font-size: 120%;
-            font-family: Arial;
-        }
-        .homepage-hero-module {
-            border-right: none;
-            border-left: none;
-            position: relative;
-        }
-        .no-video .video-container video,
-        .touch .video-container video {
-            display: none;
-        }
-        .no-video .video-container .poster,
-        .touch .video-container .poster {
-            display: block !important;
-        }
-        .video-container {
-            position: relative;
-            bottom: 0%;
-            left: 0%;
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            background: #000;
-        }
-        .video-container .poster img {
-            width: 100%;
-            bottom: 0;
-            position: absolute;
-        }
-        .video-container .filter {
-            z-index: 100;
-            position: absolute;
-            background: rgba(0, 0, 0, 0.4);
-            width: 100%;
-        }
-        .video-container video {
-            position: fixed;
-            z-index: 0;
-            bottom: 0;
-        }
-        .video-container video.fillWidth {
-           width: 100%;
-        }
-    </style>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 
 <body >
@@ -175,11 +89,11 @@ $counter=0;
                     <!-- First Blog Post -->
                     <div class="media-body">
                     <h2>
-                       <?php echo $obj["user"][0]['username']." ";?>
-                        <button type="button" class="btn btn-danger">Follower: <?php echo $NumOfFlollower ?> </button>
-                        <button type="button" class="btn btn-success">Followee:  <?php echo $NumOfFlollowee ?></button>
+                       <%= user[0]['username'] + " "%>
+                        <button type="button" class="btn btn-danger">Follower: <%= user[0]['follower'].length %> </button>
+                        <button type="button" class="btn btn-success">Followee:  <%= user[0]['followee'].length %></button>
                     </h2>
-                    <p><i class="fa fa-clock-o"></i> <?php echo "last updated at: ".$obj["user"][0]['lastUpdate']['iso'];?></p>
+                    <p><i class="fa fa-clock-o"></i> <%= "last updated at: " + user[0]['lastUpdate'].toString() %></p>
                     </div>
                     <hr>
                 </div>
@@ -188,50 +102,44 @@ $counter=0;
                 <h2>
                     What you have followed
                 </h2>
-                <p><i class="fa fa-clock-o"></i><?php  echo " Last updated at ".date("Y/m/d");?></p>
+                <p><i class="fa fa-clock-o"></i><%= Date.now().toString() %></p>
                 <hr>
                 <div class="row;">
-                    <?php
-                    foreach($storyArray["story"] as $row):
-                    $NumOfFlollowerOfStory=sizeof($row["followUser"]);
-                    ?>
+                    <% for(var i=0; i<storyArray['story'].length; i++) {%>
                     <div class="col-md-12">
                         <div class="panel panel-default " >
                             <div class="panel-heading">
                                 <h3 style="top: 10px;position: relative;">
-                                   <a href="#"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> <?php echo $row["title"] ?></a>
+                                   <a href="#"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> <%= storyArray['story'][i].title %></a>
                                 </h3>
                             </div>
                             <div class="panel-body">
                                 <table class="table table-striped">
                                     <tr>
                                         <th width="30%" class="tap">Theme</th>
-                                        <th width="70%"><?php echo  $storyArray["themeNames"][$counter]?></th>
+                                        <th width="70%"><%=  storyArray["themeNames"][i] %></th>
                                     </tr>
                                     <tr>
                                         <th width="30%">Creator</th>
-                                        <th width="70%"><?php echo  $storyArray["creators"][$counter]["username"]?></th>
+                                        <th width="70%"><%=  storyArray["creators"][i].username %></th>
                                     </tr>
                                     <tr>
                                         <th width="30%">Created date</th>
-                                        <th width="70%"><?php echo $row["createdAt"] ?></th>
+                                        <th width="70%"><%= storyArray['story'][i]["createdAt"] %></th>
                                     </tr>
                                     <tr>
                                         <th width="30%">last update</th>
-                                        <th width="70%"><?php echo $row["updatedAt"] ?></th>
+                                        <th width="70%"><%= storyArray['story'][i]["updatedAt"] %></th>
                                     </tr>
                                     <tr>
                                         <th width="30%">current contributor</th>
-                                        <th width="70%"><?php echo $NumOfFlollowerOfStory?></th>
+                                        <th width="70%"><%= storyArray['story'][i]['followUser'].length %></th>
                                     </tr>
                                 </table>
                             </div>
                         </div>
                     </div>
-                        <?php
-                        $counter++;
-                    endforeach;
-                    ?>
+                    <% } %>
                 </div>
                 <hr>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam, quasi, fugiat, asperiores harum voluptatum tenetur a possimus nesciunt quod accusamus saepe tempora ipsam distinctio minima dolorum perferendis labore impedit voluptates!</p>
@@ -302,16 +210,14 @@ $counter=0;
                     <div class="col-lg-12">
                         <h2 class="page-header">Recommandations</h2>
                     </div>
-                    <?php
-                    $counter=0;
-                    foreach($topREatedArray["bestStory"] as $topTateRow): ?>
+                    <% for(var i=0; i<topRatedArray['bestStory'].length; i++) { %>
                     <div class="col-md-12 text-center">
                         <div class="thumbnail">
                             <div class="caption">
-                                <h3> <?php echo $topTateRow["title"] ?><br>
-                                    <small><?php echo "--- by ".$topREatedArray["creators"][0]["username"]?></small>
+                                <h3> <%= topRatedArray['bestStory'][i]["title"] %><br>
+                                    <small><%= "--- by " + topRatedArray["creators"][i]["username"]%></small>
                                 </h3>
-                                <p> <?php echo $topTateRow["introduction"] ?></p>
+                                <p> <%= topRatedArray['bestStory'][i]["introduction"] %></p>
                                 <ul class="list-inline">
                                     <li><a href="#"><i class="fa fa-2x fa-facebook-square"></i></a>
                                     </li>
@@ -323,9 +229,7 @@ $counter=0;
                             </div>
                         </div>
                     </div>
-                    <?php
-                    $content++;
-                    endforeach;?>
+                    <% } %>
                 </div>
             </div>
         </div>
@@ -354,6 +258,61 @@ $counter=0;
     </div>
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <style>
+        pre {
+            border: 1px grey dotted;
+            padding: 1em;
+        }
+        #bs-example-navbar-collapse-1{
+            position: relative;
+            top:5px;
+        }
+        .collapse li a{
+            font-size: 120%;
+            font-family: Arial;
+        }
+        .homepage-hero-module {
+            border-right: none;
+            border-left: none;
+            position: relative;
+        }
+        .no-video .video-container video,
+        .touch .video-container video {
+            display: none;
+        }
+        .no-video .video-container .poster,
+        .touch .video-container .poster {
+            display: block !important;
+        }
+        .video-container {
+            position: relative;
+            bottom: 0%;
+            left: 0%;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background: #000;
+        }
+        .video-container .poster img {
+            width: 100%;
+            bottom: 0;
+            position: absolute;
+        }
+        .video-container .filter {
+            z-index: 100;
+            position: absolute;
+            background: rgba(0, 0, 0, 0.4);
+            width: 100%;
+        }
+        .video-container video {
+            position: fixed;
+            z-index: 0;
+            bottom: 0;
+        }
+        .video-container video.fillWidth {
+           width: 100%;
+        }
+    </style>
     <script>
         //jQuery is required to run this code
         $( document ).ready(function() {
@@ -399,7 +358,7 @@ $counter=0;
                     videoWidth,
                     videoHeight;
 
-            console.log(windowHeight);
+            //console.log(windowHeight);
 
             $(element).each(function(){
                 var videoAspectRatio = $(this).data('height')/$(this).data('width');

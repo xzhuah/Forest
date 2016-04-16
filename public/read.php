@@ -1,4 +1,4 @@
-<!--This page need to valuable in get request to initialize, nodeid and username.-->
+<!--This page need to valuable in get request to initialize, nodeid and story.-->
 
 <?php
 //helper function to get json object from a url
@@ -20,17 +20,20 @@ $canLike=false;
  if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $nodeID = $_GET["nodeid"];                                                      //$nodeID->     Current Node ID
     $storyTitle=$_GET["storytitle"];                                                //$storyTitle-> Story title
-    $obj=getHtml("http://10.89.116.121:3000/node/".$nodeID);                        //$obj->        The Node Object
+    $obj=getHtml("http://10.89.116.121:3000/node/".$nodeID);
+     $obj= $obj["node"];                                                              //$obj->        The Node Object
+    $storyid=$obj["story"]["objectId"];
+
     $nodeTitle=$obj["title"];                                                       //$nodeTitle->  Node title
     $nodeContent=$obj["content"];                                                   //$nodeContent->Node Content
-     $createTime=$obj["createdAt"];                                                 //$createTime-> Create time of the node 
+    $createTime=$obj["createdAt"];                                                 //$createTime-> Create time of the node
     $writer=getHtml("http://10.89.116.121:3000/userid/".$obj["writer"]["objectId"]);//$writer->     Writer Object
     $likeUser=$obj["likeBy"];                                                       //$likeUser->   All liked users
     $likeNumber=count($likeUser);                                                   //$likeNumber-> Like number
     $string_len=strlen($nodeContent);                                               //$string_len-> Content length
     $wordPerPage=1200;                                                              //$wordPerPage->Word number per page
-    $pageNum=(int)($string_len/ $wordPerPage+1);                                    //$pageNum->    Page number we need to create 
-                                                   
+    $pageNum=(int)($string_len/ $wordPerPage+1);                                    //$pageNum->    Page number we need to create
+
     $stringsplite=array();
     for($i=0;$i<$pageNum;$i++){
     	 $stringsplite[]=substr($nodeContent,$i*$wordPerPage,$wordPerPage);         //$stringsplite-> String on each page
@@ -38,13 +41,13 @@ $canLike=false;
     $children=getHtml("http://10.89.116.121:3000/nodechild/".$nodeID);              //$children->   all children of the current node
     $likeNum=array();
     for($i=0;$i<count($children);$i++){
-    $likeNum[]=count($children[$i]["likeBy"]);                                      //$likeNum->    like number of 
+    $likeNum[]=count($children[$i]["likeBy"]);                                      //$likeNum->    like number of
     }
 
     $comments=getHtml("http://10.89.116.121:3000/commentbynodeid/".$nodeID);
 
     $commentNum=count($comments);
- 
+
 }
 ?>
 <!DOCTYPE html>
@@ -99,112 +102,49 @@ $canLike=false;
             <a class="navbar-brand" href="index.html">Forest</a>
 
         </div>
-        <!-- Top Menu Items -->
-        <ul class="nav navbar-right top-nav">
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
-                <ul class="dropdown-menu message-dropdown">
-                    <li class="message-preview">
-                        <a href="#">
-                            <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span>
-                                <div class="media-body">
-                                    <h5 class="media-heading"><strong>John Smith</strong>
-                                    </h5>
-                                    <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                    <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="message-preview">
-                        <a href="#">
-                            <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span>
-                                <div class="media-body">
-                                    <h5 class="media-heading"><strong>John Smith</strong>
-                                    </h5>
-                                    <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                    <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="message-preview">
-                        <a href="#">
-                            <div class="media">
-                                    <span class="pull-left">
-                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
-                                    </span>
-                                <div class="media-body">
-                                    <h5 class="media-heading"><strong>John Smith</strong>
-                                    </h5>
-                                    <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
-                                    <p>Lorem ipsum dolor sit amet, consectetur...</p>
-                                </div>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="message-footer">
-                        <a href="#">Read All New Messages</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
-                <ul class="dropdown-menu alert-dropdown">
-                    <li>
-                        <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
-                    </li>
-                    <li>
-                        <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
-                    </li>
-                    <li>
-                        <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
-                    </li>
-                    <li>
-                        <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
-                    </li>
-                    <li>
-                        <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
-                    </li>
-                    <li>
-                        <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#">View All</a>
-                    </li>
-                </ul>
-            </li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> John Smith <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+
+        <!-- Top-items -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" style="height: 60px;">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="Homepage.html"><span class="glyphicon glyphicon-tree-conifer" style="color:#21D176"></span><span style = "font-size:80%;">Forest</span></a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="#">Sign Out</a>
+                        </li>
+                        <li>
+                            <a href="#">NovelMap</a>
+                        </li>
+                        <li>
+                            <a href="#">Guide</a>
+                        </li>
+                        <li>
+                            <a href="#">About</a>
+                        </li>
+                        <li>
+                            <a href="#">Notifications</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+
         <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav side-nav">
                 <li class="active">
-                    <a href="#"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                    <a href="map.php?id=<?php echo $storyid ?>"><i class="fa fa-fw fa-dashboard"></i>Return Story</a>
                 </li>
                 <li>
                     <a href="author.html"><i class="fa fa-fw fa-bar-chart-o"></i> Author:<?php echo $writer["username"];?></a>
@@ -221,10 +161,10 @@ $canLike=false;
                     </ul>
                 </li>
                 <!--<li>-->
-                    <!--<a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>-->
+                <!--<a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>-->
                 <!--</li>-->
                 <!--<li>-->
-                    <!--<a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>-->
+                <!--<a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>-->
                 <!--</li>-->
             </ul>
         </div>
@@ -272,7 +212,7 @@ $canLike=false;
                                 <!-- Indicators -->
                                 <ol class="carousel-indicators">
                                     <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                                    <?php 
+                                    <?php
                                         for($i=1;$i<count($stringsplite);$i++){
                                             echo " <li data-target='#myCarousel' data-slide-to=$i></li>";
                                         }
@@ -397,7 +337,7 @@ $canLike=false;
                         <a href="#">
                             <div class="panel-footer">
 
-                            <?php 
+                            <?php
                             for($i=0;$i<count($children);$i++){
                                     $title=$children[$i]["title"];
                                     $nextID=$children[$i]["objectId"];
@@ -408,7 +348,7 @@ $canLike=false;
                                 <div class='clearfix'></div>";
                             }
                             ?>
-                             
+
                             </div>
                         </a>
                     </div>
@@ -421,11 +361,11 @@ $canLike=false;
         </div>
         <!-- /.container-fluid -->
        <div id="comment" style="display:none";padding-left: 15px">
-       <?php 
+       <?php
        for($i=0;$i<$commentNum;$i++){
         $comm= $comments[$i]["text"];
         $needURL="http://10.89.116.121:3000/userid/".$comments[$i]["userID"]["objectId"];
-      
+
         $userN=getHtml($needURL);
         $userN=$userN["username"];
         echo "<div class='panel panel-yellow' style='height:80px'>
@@ -443,7 +383,7 @@ $canLike=false;
            </div>";
        }
        ?>
-            
+
     </div>
     <!-- /#page-wrapper -->
 
@@ -463,7 +403,7 @@ $canLike=false;
 <script src="js/plugins/morris/morris-data.js"></script>
 <script>
 function like(){
-   
+
 
 }
 

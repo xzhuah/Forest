@@ -2,9 +2,7 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link href='css/Login.css' rel='stylesheet' type='text/css'>
   </head>
 
@@ -18,12 +16,13 @@
     <div class="logo"></div>
     <div class="login-block">
         <h1 style="color:#21D176">Login</h1>
-        <form action="signin.php" method="post">
-        <input type="text" value="" placeholder="Email" id="username" autofocus="true" name="user"/>
-        <input type="password" value="" placeholder="Password" id="password" name="pass"/>
+        <form action="https://forest-novel.herokuapp.com/login" method="post">
+        <input type="text" value="" placeholder="Email" id="username" autofocus="true" name="username"/>
+        <input type="password" value="" placeholder="Password" id="password" name="password"/>
         <input type="submit" value="sumbit" id="submit"/>
         </form>
     </div>
-
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 </body>
 </html>
