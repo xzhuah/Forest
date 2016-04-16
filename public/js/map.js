@@ -1,5 +1,5 @@
 
-var json = [
+var cNodes = [
     {
         "content": "The genre has also been described as possessing \"a continuous and comprehensive history of about two thousand years\".[1] This view sees the novel's origins in Classical Greece and Rome, medieval, early modern romance, and the tradition of the novella. The latter, an Italian word used to describe short stories, supplied the present generic English term in the 18th century. Ian Watt, however, in The Rise of the Novel (1957) suggests that the novel first came into being in the early 18th century, Miguel de Cervantes, author of Don Quixote, is frequently cited as the first significant European novelist of the modern era; the first part of Don Quixote was published in 1605.[2]The genre has also been described as possessing \"a continuous and comprehensive history of about two thousand years\".[1] This view sees the novel's origins in Classical Greece and Rome, medieval, early modern romance, and the tradition of the novella. The latter, an Italian word used to describe short stories, supplied the present generic English term in the 18th century. Ian Watt, however, in The Rise of the Novel (1957) suggests that the novel first came into being in the early 18th century, Miguel de Cervantes, author of Don Quixote, is frequently cited as the first significant European novelist of the modern era; the first part of Don Quixote was published in 1605.[2]The genre has also been described as possessing \"a continuous and comprehensive history of about two thousand years\".[1] This view sees the novel's origins in Classical Greece and Rome, medieval, early modern romance, and the tradition of the novella. The latter, an Italian word used to describe short stories, supplied the present generic English term in the 18th century. Ian Watt, however, in The Rise of the Novel (1957) suggests that the novel first came into being in the early 18th century, Miguel de Cervantes, author of Don Quixote, is frequently cited as the first significant European novelist of the modern era; the first part of Don Quixote was published in 1605.[2]The genre has also been described as possessing \"a continuous and comprehensive history of about two thousand years\".[1] This view sees the novel's origins in Classical Greece and Rome, medieval, early modern romance, and the tradition of the novella. The latter, an Italian word used to describe short stories, supplied the present generic English term in the 18th century. Ian Watt, however, in The Rise of the Novel (1957) suggests that the novel first came into being in the early 18th century, Miguel de Cervantes, author of Don Quixote, is frequently cited as the first significant European novelist of the modern era; the first part of Don Quixote was published in 1605.[2]The genre has also been described as possessing \"a continuous and comprehensive history of about two thousand years\".[1] This view sees the novel's origins in Classical Greece and Rome, medieval, early modern romance, and the tradition of the novella. The latter, an Italian word used to describe short stories, supplied the present generic English term in the 18th century. Ian Watt, however, in The Rise of the Novel (1957) suggests that the novel first came into being in the early 18th century, Miguel de Cervantes, author of Don Quixote, is frequently cited as the first significant European novelist of the modern era; the first part of Don Quixote was published in 1605.[2]The genre has also been described as possessing \"a continuous and comprehensive history of about two thousand years\".[1] This view sees the novel's origins in Classical Greece and Rome, medieval, early modern romance, and the tradition of the novella. The latter, an Italian word used to describe short stories, supplied the present generic English term in the 18th century. Ian Watt, however, in The Rise of the Novel (1957) suggests that the novel first came into being in the early 18th century, Miguel de Cervantes, author of Don Quixote, is frequently cited as the first significant European novelist of the modern era; the first part of Don Quixote was published in 1605.[2]\nThe genre has also been described as possessing \"a continuous and comprehensive history of about two thousand years\".[1] This view sees the novel's origins in Classical Greece and Rome, medieval, early modern romance, and the tradition of the novella. The latter, an Italian word used to describe short stories, supplied the present generic English term in the 18th century. Ian Watt, however, in The Rise of the Novel (1957) suggests that the novel first came into being in the early 18th century, Miguel de Cervantes, author of Don Quixote, is frequently cited as the first significant European novelist of the modern era; the first part of Don Quixote was published in 1605.[2]The genre has also been described as possessing \"a continuous and comprehensive history of about two thousand years\".[1] This view sees the novel's origins in Classical Greece and Rome, medieval, early modern romance, and the tradition of the novella. The latter, an Italian word used to describe short stories, supplied the present generic English term in the 18th century. Ian Watt, however, in The Rise of the Novel (1957) suggests that the novel first came into being in the early 18th century, Miguel de Cervantes, author of Don Quixote, is frequently cited as the first significant European novelist of the modern era; the first part of Don Quixote was published in 1605.[2]The genre has also been described as possessing \"a continuous and comprehensive history of about two thousand years\".[1] This view sees the novel's origins in Classical Greece and Rome, medieval, early modern romance, and the tradition of the novella. The latter, an Italian word used to describe short stories, supplied the present generic English term in the 18th century. Ian Watt, however, in The Rise of the Novel (1957) suggests that the novel first came into being in the early 18th century, Miguel de Cervantes, author of Don Quixote, is frequently cited as the first significant European novelist of the modern era; the first part of Don Quixote was published in 1605.[2]The genre has also been described as possessing \"a continuous and comprehensive history of about two thousand years\".[1] This view sees the novel's origins in Classical Greece and Rome, medieval, early modern romance, and the tradition of the novella. The latter, an Italian word used to describe short stories, supplied the present generic English term in the 18th century. Ian Watt, however, in The Rise of the Novel (1957) suggests that the novel first came into being in the early 18th century, Miguel de Cervantes, author of Don Quixote, is frequently cited as the first significant European novelist of the modern era; the first part of Don Quixote was published in 1605.[2]The genre has also been described as possessing \"a continuous and comprehensive history of about two thousand years\".[1] This view sees the novel's origins in Classical Greece and Rome, medieval, early modern romance, and the tradition of the novella. The latter, an Italian word used to describe short stories, supplied the present generic English term in the 18th century. Ian Watt, however, in The Rise of the Novel (1957) suggests that the novel first came into being in the early 18th century, Miguel de Cervantes, author of Don Quixote, is frequently cited as the first significant European novelist of the modern era; the first part of Don Quixote was published in 1605.[2]The genre has also been described as possessing \"a continuous and comprehensive history of about two thousand years\".[1] This view sees the novel's origins in Classical Greece and Rome, medieval, early modern romance, and the tradition of the novella. The latter, an Italian word used to describe short stories, supplied the present generic English term in the 18th century. Ian Watt, however, in The Rise of the Novel (1957) suggests that the novel first came into being in the early 18th century, Miguel de Cervantes, author of Don Quixote, is frequently cited as the first significant European novelist of the modern era; the first part of Don Quixote was published in 1605.[2]",
         "likeBy": [
@@ -56,18 +56,37 @@ var json = [
         "updatedAt": "2016-04-16T04:33:10.322Z"
     }
 ];
-// $.get( "http://localhost:3000/userid/57109ca879bc44005f759c57", function( data ) {
-//     console.log(data);
+// $.ajax({
+//     url: "http://10.89.116.121:3000/userid/57109ca879bc44005f759c57",
+//     crossOrigin: true,
+//     type: 'GET',
+//     xhrFields: { withCredentials: true },
+//     ccept: 'application/json'
+// }).done(function (data) {
+//     alert(data);
 // });
+// var cStoryId = getStoryId();
+// var cNodes = nodebystoryid(cStoryId);
+// var getUsername = function(userId) {
+//     return getUserById(userId).username;
+// }
+
 
 var links = [];
-json.forEach(function(n) {
+cNodes.forEach(function(n) {
     if (!!n.developFrom) {
         links.push({
             source: n.developFrom.objectId,
             target: n.objectId,
             type: "licensing"
         });
+    }
+    if (!!n.linkTo) {
+        links.push({
+            source: n.linkTo.objectId,
+            target: n.objectId,
+            type: "resolved"
+        })
     }
 });
 
@@ -78,25 +97,22 @@ links.forEach(function(link) {
     link.target = nodes[link.target] || (nodes[link.target] = {objectId: link.target});
 });
 
-console.log(nodes);
 for (var key in nodes) {
     if (!nodes.hasOwnProperty(key))
         continue;
 
     var n = nodes[key];
-    var result = $.grep(json, function(e) { return e.objectId == n.objectId })[0];
-    console.log(result);
+    var result = $.grep(cNodes, function(e) { return e.objectId == n.objectId })[0];
     n.contentPreview = result.content.substr(0, 300)+"...";
     n.likeByNum = result.likeBy.length;
     n.createDate = result.createDate;
     n.title = result.title;
-    // n.story = result.story;
-    n.writer = result.writer;
-    // n.developFrom
+    // n.author = getUsername(result.writer.objectId);
 }
-console.log(nodes);
 
-var width = 960,
+var svg = d3.select("#map");
+
+var width = $("#map").width(),
     height = 500;
 
 var force = d3.layout.force()
@@ -109,7 +125,6 @@ var force = d3.layout.force()
     .on("tick", tick)
     .start();
 
-var svg = d3.select("#map");
 
 // Per-type markers, as they don't inherit styles.
 svg.append("defs").selectAll("marker")
@@ -143,33 +158,58 @@ svg.call(tip);
 var clickNode = function(d) {
     var $sideDiv = $("#node-info");
     $sideDiv.empty();
-    $sideDiv.append("<div class='panel-body'><div class='list-group'>");
-    var $sideTitle = $("<div class='list-group-item' style='font-family: Vollkorn;'><h1>"+d.title+"</h1></div>");
-    var $sideAuthor = $("<div class='list-group-item' style='font-family: Vollkorn;'><h2>"+d.writer+"</h2></div>");
-    var $sideDisc = $("<div class='list-group-item'><p><i class='fa fa-leaf' aria-hidden='true'></i>  "+d.contentPreview+"</p></div>");
-    var $sideLikes = $("<div class='list-group-item'><p><i class='fa fa-thumbs-o-up' aria-hidden='true'></i>  "+d.likeByNum+" likes</p></div>");
-    var $sideRead = $('<button type="button" class="btn btn-primary btn-block">read more</button>');
+    var $sideTitle = $("<div class='side-title'><h1>"+d.title+"</h1></div>");
+    var $sideAuthor = $("<div class='side-author'><h2>"+d.author+"</h2></div>");
+    var $sideDisc = $("<div class='side-disc'><p>"+d.contentPreview+"</p></div>");
+    var $sideLikes = $("<div class='side-likes'><p>"+d.likeByNum+" likes</p></div>");
+    // TODO: link to matching article reading page
+    var $sideRead = $('<button type="button" class="btn btn-info">read more</button>');
+    $sideRead.click(function() { window.location="read.php?nodeid="+d.objectId+"&title="+d.title; })
     $sideDiv.append($sideTitle).append($sideAuthor).append($sideDisc)
         .append($sideLikes).append($sideRead);
     $sideDiv.show();
 };
 
-var currentUserId = 0;
-
+// NO NEED TO REALIZE
+// var currentUserId = 0;
+// var colors = ["violet", "green", "blue"];
+// var c = d3.rgb(colors[Math.floor(Math.random()*colors.length)]);
+c = d3.rgb("green");
 var circle = svg.append("g").selectAll("circle")
     .data(force.nodes())
     .enter().append("circle")
     .attr("r", function(d) {
-        // according to level
-        if (d.objectId=="Microsoft")
-            return 12;
+        // according to likes number
+        // var num = d.likeByNum;
+        // if (num < 3)
+        //     return 5;
+        // else if (num < 10)
+        //     return 5.5;
+        // else if (num < 20)
+        //     return 6;
+        // else if (num < 40)
+        //     return 6.5;
+        // else if (num < 80)
+        //     return 7;
+        // else
+        //     return 8;
         return 6;
     })
     .style("fill", function(d) {
-        // according to likes
-        if (d.objectId == currentUserId)
-            return "red";
-        return "green";
+        // according to stories
+        var num = d.likeByNum;
+        if (num < 3)
+            return c.brighter(2).toString();
+        else if (num < 10)
+            return c.brighter(1).toString();
+        else if (num < 20)
+            return c.toString();
+        else if (num < 40)
+            return c.darker(1).toString();
+        else if (num < 80)
+            return c.darker(2).toString();
+        else
+            return c.darker(3).toString();
     })
     .on("click", clickNode)
     .on('mouseover', tip.show)
