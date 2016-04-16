@@ -245,7 +245,10 @@ app.get('/beststory/:topnum',function(req,res){
       }
       return 0;
     });
-    res.json({success: true, bestStory: results.slice(0, topnum + 1)});
+    if (topnum > results.length) {
+      res.json({success: false, error: "topnum too large"});
+    }
+    res.json({success: true, bestStory: results.slice(0, topnum)});
   }).catch(function(error) {
     res.json({success: false, error: error});
   });
@@ -297,14 +300,12 @@ app.post('/login', function(req, res) {
   });
 });
 
-app.get('/node/:developFrom/:linkTo', function(req, res) {
+app.get('/node/:storyId/:writerId/:developFrom/;linkTo', function(req, res) {
   var developFrom = req.params.developFrom;
   var linkTo = req.params.linkTo;
   var Node = AV.Object.extend('Node');
   var newNode = new Node();
-  if (developFrom == undefined) {
-
-  }
+  newNode.set('')
 });
 
 app.get('/story/theme', function(req, res) {
