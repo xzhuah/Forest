@@ -53,7 +53,7 @@ app.get('/', function(req, res) {
 
 //////////////////////////////////Our Functions Start here/////////////////////////////////////
 //get user by userID
-app.get('/userid/:userid',function(req,res){
+app.get('/userid/:userid',function(req,res){//OK 2016/4/16
   var userID=req.params.userid;
    var findUserById=new AV.Query(AV.User);
   findUserById.get(userID).then(function(obj){
@@ -64,7 +64,7 @@ app.get('/userid/:userid',function(req,res){
 });
 
 // get uer by usernpame
-app.get('/user/:username', function(req, res) {////////////////OK
+app.get('/user/:username', function(req, res) {//OK 2016/4/16
   var username = req.params.username;
   var userQuery = new AV.Query(AV.User);//choose table
   userQuery.equalTo('username', username);//Condition
@@ -79,7 +79,7 @@ app.get('/user/:username', function(req, res) {////////////////OK
 });
 
 // get uer by email
-app.get('/user_email/:theemail', function(req, res) {/////OK
+app.get('/user_email/:theemail', function(req, res) {//OK 2016/4/16
   var theemail = req.params.theemail;
   var EmailuserQuery = new AV.Query(AV.User);//choose table
   EmailuserQuery.equalTo('email', theemail);//Condition
@@ -95,38 +95,27 @@ app.get('/user_email/:theemail', function(req, res) {/////OK
 
 
 //Return comments by a nodeid
-app.get('/commentbynodeid/:nodeid',function(req,res){////////OK
-
-
-  var commentbynodeid=req.params.nodeid;
-  var getNodeFirst=new AV.Query("Node");
-  getNodeFirst.get(commentbynodeid).then(function(obj){
-     var findCommentByNodeID=new AV.Query("Comment");
-    findCommentByNodeID.equalTo('nodeID',obj);
-    findCommentByNodeID.find().then(function(comments) {//quert
-      //found
-      res.json(comments);
-    }).catch(function(error) {
-      //failed
-      res.json({success: false});
-    });
-  },function(err){
-       res.json({success: false})
-  var findCommentByNodeID=new AV.Query('Comment');
-  findCommentByNodeID.equalTo('nodeID',commentbynodeid);
-  findCommentByNodeID.find().then(function(comments) {//quert
-    //found
-    res.json({success: true, comments: comments});
-  }).catch(function(error) {
-    //failed
-    res.json({success: false});
-  });
-
- 
+app.get('/commentbynodeid/:nodeid',function(req,res){//OK 2016/4/16
+    var commentbynodeid=req.params.nodeid;
+    var getNodeFirst = new AV.Query("Node");
+    getNodeFirst.get(commentbynodeid).then(function(obj){
+        var findCommentByNodeID=new AV.Query("Comment");
+        findCommentByNodeID.equalTo('nodeID',obj);
+        findCommentByNodeID.find().then(function(comments) {//quert
+        //found
+        res.json(comments);
+        }).catch(function(error) {
+        //failed
+        res.json({success: false});
+        });
+      },function(err){
+      res.json({success: false})
+      });
 });
 
+
 //get node by id
-app.get('/node/:nodeid2',function(req,res){///////OK
+app.get('/node/:nodeid2',function(req,res){//OK 2016/4/16
   var querynodeid=req.params.nodeid2;
   var findNodeByNodeID=new AV.Query('Node');
   findNodeByNodeID.get(querynodeid).then(function(obj){
@@ -137,7 +126,7 @@ app.get('/node/:nodeid2',function(req,res){///////OK
 });
 
 //get node by parent node id
-app.get("/nodechild/:parentid",function(req,res){///ok
+app.get("/nodechild/:parentid",function(req,res){//OK 2016/4/16
 
   var queryparentid=req.params.parentid;
    var findNodeByParent=new AV.Query("Node");
@@ -152,9 +141,6 @@ app.get("/nodechild/:parentid",function(req,res){///ok
     //failed
     res.json({success: false});
   });
-
-
-
    },function(error){
      res.json({success: false});
   });
@@ -164,8 +150,7 @@ app.get("/nodechild/:parentid",function(req,res){///ok
 });
 
 
-
-app.get('story/:storyId', function(req, res) {
+app.get('/story/:storyId', function(req, res) {//OK 2016/4/16
   var storyId = req.params.storyId;
   var storyQuery = new AV.Query('Story');
   storyQuery.get(storyId).then(function(story) {
@@ -176,7 +161,7 @@ app.get('story/:storyId', function(req, res) {
 });
 
 //get all themes
-app.get('/theme',function(req,res){///////OK
+app.get('/theme',function(req,res){//OK 2016/4/16
    var findAllTheme=new AV.Query('Theme');
    findAllTheme.find().then(function(obj){
     res.json({success: true, theme: obj});
@@ -187,53 +172,52 @@ app.get('/theme',function(req,res){///////OK
 });
 
 //Get story by theme
-app.get('/storybythemeid/:themeid',function(req,res){////////OK
+app.get('/storybythemeid/:themeid',function(req, res){//OK 2016/4/16
   var querystorybytheme=req.params.themeid;
-  var findthemefirst=new AV.Query("Theme");
+  var findthemefirst = new AV.Query('Theme');
   findthemefirst.get(querystorybytheme).then(function(obj){
-  var findStoryBythemeID=new AV.Query("Story");
-  findStoryBythemeID.equalTo("theme",obj);
-  findStoryBythemeID.find().then(function(objj) {//quert
-    //found
-    res.json(objj);
-var querystorybytheme=req.params.themeid;
-var findStoryBythemeID=new AV.Query('Story');
-findStoryBythemeID.equalTo('theme',querystorybytheme);
-
-
- findStoryBythemeID.find().then(function(obj) {//quert
-    //found
-    res.json({success: true, story: obj});
-  }).catch(function(error) {
-    //failed
+      var findStoryBythemeID=new AV.Query("Story");
+      findStoryBythemeID.equalTo('theme',obj);
+      findStoryBythemeID.find().then(function(oobj){//quert
+      //found
+      res.json(oobj);
+    },function(error){
     res.json({success: false});
   });
-},function(error){
+  },function(error){
   res.json({success: false});
 });
-
-
 });
+
+
+
 
 
 //find nodes by story id
-app.get('/nodebystoryid/:storyid',function(req,res){//////OK
+app.get('/nodebystoryid/:storyid',function(req,res){//OK 2016/4/16
 var querynodebystory=req.params.storyid;
-var findNodeByStoryID=new AV.Query('Node');
-findNodeByStoryID.equalTo('story',querynodebystory);
+var findStoryFirst=new AV.Query('Story');
+findStoryFirst.get(querynodebystory).then(function(obj){
+  var findNodeByStoryID=new AV.Query('Node');
+  findNodeByStoryID.equalTo('story',obj);
 
-findNodeByStoryID.find().then(function(obj) {//quert
+  findNodeByStoryID.find().then(function(obj) {//quert
   //found
-  res.json({success: true, node: obj});
+  res.json(obj);
 }).catch(function(error) {
   //failed
   res.json({success: false});
 });
+
+},function(error){
+  res.json({success: false});
+});
+
 });
 
 
 //search story by userid
-app.get('/storybyuser/:userid',function(req,res){
+app.get('/storybyuser/:userid',function(req,res){//OK 2016/4/16
   var querystoryidbyuser=req.params.userid;
   var findStoryIdByUserID=new AV.Query(AV.User);
   var innerQuery = new AV.Query('Story');
@@ -261,8 +245,9 @@ app.get('/storybyuser/:userid',function(req,res){
   });
 });
 
+
 //Search Story by likenumber ranking
-app.get('/beststory/:topnum',function(req,res){
+app.get('/beststory/:topnum',function(req,res){//OK 2016/4/16
   var topnum = req.params.topnum;
   var findStorybylikerank = new AV.Query('Story');
   var creators = [];
@@ -295,6 +280,7 @@ app.get('/beststory/:topnum',function(req,res){
   });
 });
 
+
 app.post('/comment/:nodeId/:userId', function(req, res) {
   var commentContent = req.body.commentContent;
   var userId = req.params.userId;
@@ -310,7 +296,6 @@ app.post('/comment/:nodeId/:userId', function(req, res) {
     res.json({success: false, error: error});
   });
 });
-
 app.post('/signup', function(req, res) {
   var email = req.body.email;
   var username = req.body.username;
@@ -319,7 +304,6 @@ app.post('/signup', function(req, res) {
   user.set('username', username);
   user.set('password', password);
   user.set('email', email);
-
   user.signUp().then(function(user) {
     // 注册成功，可以使用了
     res.json({success: true, user: user});
@@ -328,7 +312,6 @@ app.post('/signup', function(req, res) {
     res.json({success: false, error: error});
   });
 });
-
 app.post('/login', function(req, res) {
   var username = req.body.username;
   var password = req.body.password;
@@ -342,16 +325,13 @@ app.post('/login', function(req, res) {
     //res.json({success: false, error: error});
   });
 });
-
 app.get('/node/:storyId/:writerId/:developFrom/;linkTo', function(req, res) {
   var developFrom = req.params.developFrom;
   var linkTo = req.params.linkTo;
   var Node = AV.Object.extend('Node');
   var newNode = new Node();
 });
-
 app.get('/story/theme', function(req, res) {
-
 });
 /////////////////////Post ADD///////////////////////
 
