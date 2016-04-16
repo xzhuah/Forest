@@ -2,8 +2,6 @@
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $storyID = $_GET['id'];
 }
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

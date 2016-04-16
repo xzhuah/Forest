@@ -3,7 +3,6 @@ var nodes = {};
 var width = $("#map").width(),
     height = 500;
 var svg = d3.select("#map");
-var storyId = "5710d6fd128fe1006cd73e86";
 // var currentUserId = 0;
 
 $.ajax({
@@ -23,8 +22,8 @@ $.ajax({
         }
         if (!!n.linkTo) {
             links.push({
-                source: n.linkTo.objectId,
-                target: n.objectId,
+                source: n.objectId,
+                target: n.linkTo.objectId,
                 type: "resolved"
             });
         }
