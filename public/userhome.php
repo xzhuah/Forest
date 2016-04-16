@@ -1,5 +1,3 @@
-<<<<<<< HEAD:Front_End/userhome.html
-=======
 <?php
 //$handle = fopen("http://10.89.116.121:3000/user/cbai","rb");
 $handle = fopen("https://forest-novel.herokuapp.com/user/cbai","rb");
@@ -32,7 +30,6 @@ while (!feof($topRated)) {
 $topREatedArray = json_decode($topRatedContent,true);
 $counter=0;
 ?>
->>>>>>> origin/dev:Front_End/userhome.php
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -267,7 +264,6 @@ $counter=0;
                     <?php
                     foreach($storyArray["story"] as $row):
                     $NumOfFlollowerOfStory=sizeof($row["followUser"]);
-
                     ?>
                     <div class="col-md-12">
                         <div class="panel panel-default " >

@@ -1,4 +1,4 @@
-<!--This page need to valuable in get request to initialize, nodeid and username.-->
+<!--This page need to valuable in get request to initialize, nodeid and story.-->
 
 <?php
 //helper function to get json object from a url
@@ -20,10 +20,12 @@ $canLike=false;
  if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $nodeID = $_GET["nodeid"];                                                      //$nodeID->     Current Node ID
     $storyTitle=$_GET["storytitle"];                                                //$storyTitle-> Story title
-    $obj=getHtml("http://10.89.116.121:3000/node/".$nodeID);                        //$obj->        The Node Object
+    $obj=getHtml("http://10.89.116.121:3000/node/".$nodeID); 
+     $obj= $obj["node"];                                                              //$obj->        The Node Object
+                                            
     $nodeTitle=$obj["title"];                                                       //$nodeTitle->  Node title
     $nodeContent=$obj["content"];                                                   //$nodeContent->Node Content
-     $createTime=$obj["createdAt"];                                                 //$createTime-> Create time of the node 
+    $createTime=$obj["createdAt"];                                                 //$createTime-> Create time of the node 
     $writer=getHtml("http://10.89.116.121:3000/userid/".$obj["writer"]["objectId"]);//$writer->     Writer Object
     $likeUser=$obj["likeBy"];                                                       //$likeUser->   All liked users
     $likeNumber=count($likeUser);                                                   //$likeNumber-> Like number
