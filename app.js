@@ -172,7 +172,7 @@ app.get('/storybyuser/:userid',function(req,res){
     innerQuery.find().then(function(results) {
       results.map(function(result) {
         if (result.get('followUser').indexOf(querystoryidbyuser) > -1) {
-          stories[result.get('id')] = result;
+          stories[result.id] = result;
         }
       });
       res.json({success: true, story: stories});
