@@ -166,13 +166,13 @@ findNodeByStoryID.find().then(function(obj) {//quert
 app.get('/storybyuser/:userid',function(req,res){
   var querystoryidbyuser=req.params.userid;
   var findStoryIdByUserID=new AV.Query(AV.User);
-  var stories = {};
+  var stories = [];
   findStoryIdByUserID.get(querystoryidbyuser).then(function(obj){
     var innerQuery = new AV.Query('Story');
     innerQuery.find().then(function(results) {
       results.map(function(result) {
         if (result.get('followUser').indexOf(querystoryidbyuser) > -1) {
-          stories[result.id] = result;
+          stories.push(result);
         }
       });
       res.json({success: true, story: stories});
@@ -252,7 +252,14 @@ app.get('/node/:developFrom/:linkTo', function(req, res) {
   var developFrom = req.params.developFrom;
   var linkTo = req.params.linkTo;
   var Node = AV.Object.extend('Node');
-  var newNode = Node();
+  var newNode = new Node();
+  if (developFrom == undefined) {
+
+  }
+});
+
+app.get('/story/theme', function(req, res) {
+
 });
 /////////////////////Post ADD///////////////////////
 
