@@ -96,7 +96,24 @@ app.get('/user_email/:theemail', function(req, res) {/////OK
 
 //Return comments by a nodeid
 app.get('/commentbynodeid/:nodeid',function(req,res){////////OK
+
+
   var commentbynodeid=req.params.nodeid;
+
+  var getNodeFirst=new AV.Query("Node");
+  getNodeFirst.get(commentbynodeid).then(function(obj){
+     var findCommentByNodeID=new AV.Query("Comment");
+    findCommentByNodeID.equalTo('nodeID',obj);
+    findCommentByNodeID.find().then(function(comments) {//quert
+      //found
+      res.json(comments);
+    }).catch(function(error) {
+      //failed
+      res.json({success: false});
+    });
+  },function(err){
+       res.json({success: false})
+
   var findCommentByNodeID=new AV.Query('Comment');
   findCommentByNodeID.equalTo('nodeID',commentbynodeid);
   findCommentByNodeID.find().then(function(comments) {//quert
@@ -105,7 +122,10 @@ app.get('/commentbynodeid/:nodeid',function(req,res){////////OK
   }).catch(function(error) {
     //failed
     res.json({success: false});
+
   });
+
+ 
 });
 
 //get node by id
@@ -120,7 +140,7 @@ app.get('/node/:nodeid2',function(req,res){///////OK
 });
 
 //get node by parent node id
-app.get("/nodechild/:parentid",function(req,res){
+app.get("/nodechild/:parentid",function(req,res){///ok
 
   var queryparentid=req.params.parentid;
    var findNodeByParent=new AV.Query("Node");
@@ -171,6 +191,16 @@ app.get('/theme',function(req,res){///////OK
 
 //Get story by theme
 app.get('/storybythemeid/:themeid',function(req,res){////////OK
+
+  var querystorybytheme=req.params.themeid;
+  var findthemefirst=new AV.Query("Theme");
+  findthemefirst.get(querystorybytheme).then(function(obj){
+  var findStoryBythemeID=new AV.Query("Story");
+  findStoryBythemeID.equalTo("theme",obj);
+  findStoryBythemeID.find().then(function(objj) {//quert
+    //found
+    res.json(objj);
+
 var querystorybytheme=req.params.themeid;
 var findStoryBythemeID=new AV.Query('Story');
 findStoryBythemeID.equalTo('theme',querystorybytheme);
@@ -179,10 +209,16 @@ findStoryBythemeID.equalTo('theme',querystorybytheme);
  findStoryBythemeID.find().then(function(obj) {//quert
     //found
     res.json({success: true, story: obj});
+
   }).catch(function(error) {
     //failed
     res.json({success: false});
   });
+},function(error){
+  res.json({success: false});
+});
+
+
 });
 
 
