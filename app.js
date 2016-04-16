@@ -53,14 +53,14 @@ app.get('/', function(req, res) {
 
 //////////////////////////////////Our Functions Start here/////////////////////////////////////
 
-// get uer by username 
+// get uer by usernpame
 app.get('/user/:username', function(req, res) {////////////////OK
   var username = req.params.username;
   var userQuery = new AV.Query(AV.User);//choose table
   userQuery.equalTo('username', username);//Condition
   userQuery.find().then(function(user) {//quert
     //found
-    
+
     res.json(user);
   }).catch(function(error) {
     //failed
@@ -117,7 +117,7 @@ app.get('/theme',function(req,res){///////OK
    },function(error){
      res.json({success: false});
    });
- 
+
 });
 
 //Get story by theme
@@ -152,13 +152,14 @@ findNodeByStoryID.find().then(function(obj) {//quert
 });
 });
 
+
 //search story by userid
 app.get('/storybyuser/:userid',function(req,res){
   var querystoryidbyuser=req.params.userid;
   var findStoryIdByUserID=new AV.Query(AV.User);
   findStoryIdByUserID.get(querystoryidbyuser).then(function(obj){
     var innerQuery = new AV.Query('followStory');
-    
+
   },function(error){
      res.json({success: false});
   });
@@ -170,6 +171,54 @@ app.get('/beststory/:topnum',function(req,res){
   var findStorybylikerank=new AV.Query("Story");
 
 });
+
+app.post('/comment/:nodeId/:userId', function(req, res) {
+  var commentContent = req.body.commentContent;
+  var userId = req.params.userId;
+  var nodeId = req.params.nodeId;
+  var Comment = AV.Object.extend('Comment');
+  var comment = new Comment();
+  comment.set('nodeID', nodeId);
+  comment.set('userID', userId);
+  comment.set('text', commentContent);
+  comment.save().then(function(success) {
+    res.json({success: true, comment: comment});
+  }).catch(function(error) {
+    res.json({success: false, error: error});
+  });
+});
+
+app.post('/signup', function(req, res) {
+  var email = req.body.email;
+  var username = req.body.username;
+  var password = req.body.password;
+  var user = new AV.User();
+  user.set('username', username);
+  user.set('password', password);
+  user.set('email', email);
+
+  user.signUp().then(function(user) {
+    // 注册成功，可以使用了
+    res.json({success: true, user: user});
+  }, function(error) {
+    // 失败了
+    res.json({success: false, error: error});
+  });
+});
+
+app.post('/login', function(req, res) {
+  var username = req.body.username;
+  var password = req.body.password;
+  AV.User.logIn(username, password).then(function(success) {
+    // 成功了，现在可以做其他事情了
+    res.json({success: true, user: AV.User.current()});
+  }, function(error) {
+    // 失败了
+    res.json({success: false, error: error});
+  });
+});
+
+
 /////////////////////Post ADD///////////////////////
 
 //////////////////////////////////Our Functions END here/////////////////////////////////////
