@@ -191,6 +191,8 @@ $followStory=$obj[0]['followStory'];
             </div>
         </div>
     </nav>
+
+
     <div class="homepage-hero-module" style="position: fixed;">
         <div class="video-container">
             <video autoplay loop class="fillWidth" style="opacity: 0.8;">
