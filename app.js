@@ -209,15 +209,16 @@ app.get('/storybyuser/:userid',function(req,res){
   var innerQuery = new AV.Query('Story');
   innerQuery.include('theme');
   var stories = [];
+  var themeNames = [];
   findStoryIdByUserID.get(querystoryidbyuser).then(function(obj){
     innerQuery.find().then(function(results) {
       results.map(function(result) {
         if (result.get('followUser').indexOf(querystoryidbyuser) > -1) {
-          result['themeName'] = result.get('theme').get('name');
+          themeNames.push(result.get('theme').get('name'));
           stories.push(result);
         }
       });
-      res.json({success: true, story: stories});
+      res.json({success: true, story: stories, themeNames: themeNames});
     });
   },function(error){
      res.json({success: false, error: error});
