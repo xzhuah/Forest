@@ -119,14 +119,13 @@ app.get('/node/:nodeid2',function(req,res){///////OK
   });
 });
 
-<<<<<<< HEAD
 //get node by parent node id
 app.get("/nodechild/:parentid",function(req,res){
 
   var queryparentid=req.params.parentid;
    var findNodeByParent=new AV.Query("Node");
    findNodeByParent.get(queryparentid).then(function(objs){
-       
+
         var findNodeByParentID=new AV.Query("Node");
   findNodeByParentID.equalTo("developFrom",objs);
   findNodeByParentID.find().then(function(objjs) {//quert
@@ -136,7 +135,7 @@ app.get("/nodechild/:parentid",function(req,res){
     //failed
     res.json({success: false});
   });
-    
+
 
 
    },function(error){
@@ -144,12 +143,11 @@ app.get("/nodechild/:parentid",function(req,res){
   });
 
 
- 
+
 });
 
 
 
-=======
 app.get('story/:storyId', function(req, res) {
   var storyId = req.params.storyId;
   var storyQuery = new AV.Query('Story');
@@ -159,7 +157,7 @@ app.get('story/:storyId', function(req, res) {
     res.json({success: false, error: error});
   });
 });
->>>>>>> master
+
 //get all themes
 app.get('/theme',function(req,res){///////OK
    var findAllTheme=new AV.Query('Theme');
