@@ -143,11 +143,12 @@ svg.call(tip);
 var clickNode = function(d) {
     var $sideDiv = $("#node-info");
     $sideDiv.empty();
-    var $sideTitle = $("<div class='side-title'><h1>"+d.title+"</h1></div>");
-    var $sideAuthor = $("<div class='side-author'><h2>"+d.writer+"</h2></div>");
-    var $sideDisc = $("<div class='side-disc'><p>"+d.contentPreview+"</p></div>");
-    var $sideLikes = $("<div class='side-likes'><p>"+d.likeByNum+" likes</p></div>");
-    var $sideRead = $('<button type="button" class="btn btn-info">read more</button>');
+    $sideDiv.append("<div class='panel-body'><div class='list-group'>");
+    var $sideTitle = $("<div class='list-group-item' style='font-family: Vollkorn;'><h1>"+d.title+"</h1></div>");
+    var $sideAuthor = $("<div class='list-group-item' style='font-family: Vollkorn;'><h2>"+d.writer+"</h2></div>");
+    var $sideDisc = $("<div class='list-group-item'><p><i class='fa fa-leaf' aria-hidden='true'></i>  "+d.contentPreview+"</p></div>");
+    var $sideLikes = $("<div class='list-group-item'><p><i class='fa fa-thumbs-o-up' aria-hidden='true'></i>  "+d.likeByNum+" likes</p></div>");
+    var $sideRead = $('<button type="button" class="btn btn-primary btn-block">read more</button>');
     $sideDiv.append($sideTitle).append($sideAuthor).append($sideDisc)
         .append($sideLikes).append($sideRead);
     $sideDiv.show();
