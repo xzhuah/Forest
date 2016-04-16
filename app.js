@@ -114,7 +114,7 @@ app.get('story/:storyId', function(req, res) {
   var storyQuery = new AV.Query('Story');
   storyQuery.get(storyId).then(function(story) {
     res.json({success: true, story: story});
-  }).catch(function(error;) {
+  }).catch(function(error) {
     res.json({success: false, error: error});
   });
 });
@@ -253,7 +253,6 @@ app.get('/node/:developFrom/:linkTo', function(req, res) {
   var linkTo = req.params.linkTo;
   var Node = AV.Object.extend('Node');
   var newNode = Node();
-
 });
 /////////////////////Post ADD///////////////////////
 
