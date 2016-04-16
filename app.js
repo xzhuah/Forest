@@ -169,6 +169,7 @@ app.get('/storybyuser/:userid',function(req,res){
   var stories = [];
   findStoryIdByUserID.get(querystoryidbyuser).then(function(obj){
     var innerQuery = new AV.Query('Story');
+    innerQuery.include('Theme');
     innerQuery.find().then(function(results) {
       results.map(function(result) {
         if (result.get('followUser').indexOf(querystoryidbyuser) > -1) {
