@@ -1,3 +1,5 @@
+<<<<<<< HEAD:Front_End/userhome.html
+=======
 <?php
 $handle = fopen("http://10.89.116.121:3000/user/cbai","rb");
 $content = "";
@@ -13,17 +15,22 @@ $NumOfFlollower=sizeof($follower);
 $NumOfFlollowee=sizeof($followee);
 $followStory=$obj[0]['followStory'];
 ?>
+>>>>>>> origin/dev:Front_End/userhome.php
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <link href="css/bootstrap.min.css" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Custom CSS -->
     <link href="css/modern-business.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <style>
         pre {
             border: 1px grey dotted;
@@ -160,22 +167,22 @@ $followStory=$obj[0]['followStory'];
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html"><span style="color: greenyellow; font-family: 'Arial Unicode MS'; font-weight:bold;font-size: 80%; position: relative;">Forest</span></a>
+                <a class="navbar-brand" href="Homepage.html"><span class="glyphicon glyphicon-tree-conifer" style="color:#21D176"></span><span style = "font-size:80%;">Forest</span></a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="#">sign up/log in</a>
+                        <a href="#">Sign Out</a>
                     </li>
                     <li>
-                        <a href="#">novelMap</a>
+                        <a href="#">NovelMap</a>
                     </li>
                     <li>
-                        <a href="#">guide</a>
+                        <a href="#">Guide</a>
                     </li>
                     <li>
-                        <a href="#">about</a>
+                        <a href="#">About</a>
                     </li>
                     <li>
                         <a href="#">Notifications</a>

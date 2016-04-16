@@ -60,6 +60,7 @@ app.get('/user/:username', function(req, res) {////////////////OK
   userQuery.equalTo('username', username);//Condition
   userQuery.find().then(function(user) {//quert
     //found
+    
     res.json(user);
   }).catch(function(error) {
     //failed
@@ -151,6 +152,24 @@ findNodeByStoryID.find().then(function(obj) {//quert
 });
 });
 
+//search story by userid
+app.get('/storybyuser/:userid',function(req,res){
+  var querystoryidbyuser=req.params.userid;
+  var findStoryIdByUserID=new AV.Query(AV.User);
+  findStoryIdByUserID.get(querystoryidbyuser).then(function(obj){
+    var innerQuery = new AV.Query('followStory');
+    
+  },function(error){
+     res.json({success: false});
+  });
+});
+
+//Search Story by likenumber ranking
+app.get('/beststory/:topnum',function(req,res){
+  var topnum=req.params.topnum;
+  var findStorybylikerank=new AV.Query("Story");
+
+});
 /////////////////////Post ADD///////////////////////
 
 //////////////////////////////////Our Functions END here/////////////////////////////////////
