@@ -67,7 +67,7 @@ body {
     border: 1px solid #21D176;
 }
 
-.login-block button {
+#submit{
     width: 100%;
     height: 40px;
     background: #21D176;
