@@ -235,6 +235,8 @@ app.get('/storybyuser/:userid',function(req,res){
 app.get('/beststory/:topnum',function(req,res){
   var topnum = req.params.topnum;
   var findStorybylikerank = new AV.Query('Story');
+  var creators = [];
+  findStorybylikerank.include('creator');
   findStorybylikerank.find().then(function(results) {
     results.sort(function(x, y) {
       if (x.get('followUser').length > y.get('followUser').length) {
@@ -248,7 +250,16 @@ app.get('/beststory/:topnum',function(req,res){
     if (topnum > results.length) {
       res.json({success: false, error: "topnum too large"});
     }
-    res.json({success: true, bestStory: results.slice(0, topnum)});
+    var bestStory = results.slice(0, topnum);
+    bestStory.map(function(story) {
+      creators.push(
+        {
+          id: story.get('creator').id,
+          username: story.get('creator').get('username')
+        }
+    );
+    });
+    res.json({success: true, bestStory: bestStory, creators: creators});
   }).catch(function(error) {
     res.json({success: false, error: error});
   });
