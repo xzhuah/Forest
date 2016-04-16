@@ -10,6 +10,11 @@ $json = $content;
 $obj = json_decode($json,true);//$obj is the node object
 return $obj;
 }
+
+$UserId=$_SESSION["user_ID"];
+$canLike=false;
+$needLogin=false;
+
  if ($_SERVER["REQUEST_METHOD"] == "GET") {
   $nodeID = $_GET["nodeid"];
   
@@ -18,8 +23,19 @@ return $obj;
  $nodeContent=$obj["content"];
  
  $writer=getHtml("http://10.89.116.121:3000/userid/".$obj["writer"]["objectId"]);
- 
- $likeNumber=count($obj["likeBy"]);
+ $likeUser=$obj["likeBy"];
+ $likeNumber=count($likeUser);
+ if(!is_nan($UserId)){
+	 $canLike=true;
+	foreach($user as $likeUser){
+		if($user==$UserId){
+			$canLike=false;
+			break;	
+		}
+	}
+ }else{
+	 $needLogin=true;
+ }
  
  $string_len=strlen($nodeContent);
  $wordPerPage=1200;
@@ -32,6 +48,8 @@ return $obj;
 		 $stringsplite[]=substr($nodeContent,$i*$wordPerPage,$wordPerPage);
 	//}
  }
+ 
+ 
  
  $children=getHtml("http://10.89.116.121:3000/nodechild/".$nodeID);
  $likeNum=array();
