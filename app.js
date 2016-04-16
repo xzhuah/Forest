@@ -233,7 +233,7 @@ app.get('/storybyuser/:userid',function(req,res){//OK 2016/4/16
   findStoryIdByUserID.get(querystoryidbyuser).then(function(obj){
     innerQuery.find().then(function(results) {
       results.map(function(result) {
-        if (result.get('followUser').indexOf(querystoryidbyuser) > -1) {
+        if (result.get('followUser') != undefined && result.get('followUser').indexOf(querystoryidbyuser) > -1) {
           themeNames.push(result.get('theme').get('name'));
           creators.push({
             id: result.get('creator').id,
@@ -363,6 +363,11 @@ app.get('/userhome', function(req, res) {
       res.render('userhome', {storyArray: storyArray, topRatedArray: topRatedArray, user: user});
     });
 });
+
+app.get('/userlike/:userId/:nodeId', function(req, res) {
+  var userId = req.params.userId;
+  var nodeId = req.params.nodeId;
+});
 /////////////////////Post ADD///////////////////////
 app.post('/comment/:nodeId/:userId', function(req, res) {
   var commentContent = req.body.commentContent;
@@ -433,8 +438,33 @@ app.post('/node', function(req, res) {
   });
 });
 
-app.post('/story/:creator/:title/:theme/:intro', function(req, res) {
+app.post('/story', function(req, res) {
   var creator = req.body.creator;
+  var title = req.body.storyTitle;
+  var theme = req.body.theme;
+  var intro = req.body.intro;
+  if (creator == undefined || title == undefined || theme == undefined || intro == undefined) {
+    res.json({success: false, error: "parameter incomplete"});
+  }
+  //update theme
+  var themeQuery = new AV.Query('Theme');
+  themeQuery.get(theme).then(function(getTheme) {
+      theme = getTheme;
+  }).catch(function(error) {
+    res.json({success: false, error: error});
+  });
+  var writerQuery = new AV.Query(AV.User);
+  writerQuery.get(writer).then(function(wri) {
+    creator = wri;
+  }).catch(function(error) {
+    res.json({success: false, error: error});
+  });
+  var Story = AV.Object.extend('Story');
+  var newStory = new Story();
+  newStory.set('creator', creator);
+  newStory.set('title', title);
+  newStory.set('theme', theme);
+  newStory.set('introduction', intro);
 });
 //////////////////////////////////Our Functions END here/////////////////////////////////////
 // 可以将一类的路由单独保存在一个文件中

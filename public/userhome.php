@@ -37,14 +37,11 @@ $counter=0;
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Custom CSS -->
-    <link href="css/modern-business.css" rel="stylesheet">
+    <!--<link href="css/modern-business.css" rel="stylesheet">-->
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="css/style.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.js"></script>
     <style>
         pre {
             border: 1px grey dotted;
@@ -100,73 +97,6 @@ $counter=0;
            width: 100%;
         }
     </style>
-    <script src="js/jquery.js"></script>
-    <script>
-        //jQuery is required to run this code
-        $( document ).ready(function() {
-
-            scaleVideoContainer();
-
-            initBannerVideoSize('.video-container .poster img');
-            initBannerVideoSize('.video-container .filter');
-            initBannerVideoSize('.video-container video');
-
-            $(window).on('resize', function() {
-                scaleVideoContainer();
-                scaleBannerVideoSize('.video-container .poster img');
-                scaleBannerVideoSize('.video-container .filter');
-                scaleBannerVideoSize('.video-container video');
-            });
-
-        });
-
-        function scaleVideoContainer() {
-
-            var height = $(window).height() + 5;
-            var unitHeight = parseInt(height) + 'px';
-            $('.homepage-hero-module').css('height',unitHeight);
-
-        }
-
-        function initBannerVideoSize(element){
-
-            $(element).each(function(){
-                $(this).data('height', $(this).height());
-                $(this).data('width', $(this).width());
-            });
-
-            scaleBannerVideoSize(element);
-
-        }
-
-        function scaleBannerVideoSize(element){
-
-            var windowWidth = $(window).width(),
-                    windowHeight = $(window).height() + 5,
-                    videoWidth,
-                    videoHeight;
-
-            console.log(windowHeight);
-
-            $(element).each(function(){
-                var videoAspectRatio = $(this).data('height')/$(this).data('width');
-
-                $(this).width(windowWidth);
-
-                if(windowWidth < 1000){
-                    videoHeight = windowHeight;
-                    videoWidth = videoHeight / videoAspectRatio;
-                    $(this).css({'margin-top' : 0, 'margin-left' : -(videoWidth - windowWidth) / 2 + 'px'});
-
-                    $(this).width(videoWidth).height(videoHeight);
-                }
-
-                $('.homepage-hero-module .video-container video').addClass('fadeIn animated');
-
-            });
-        }
-    </script>
-
 </head>
 
 <body >
@@ -422,11 +352,73 @@ $counter=0;
             </div>
         </div>
     </div>
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
+    <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script>
+        //jQuery is required to run this code
+        $( document ).ready(function() {
+
+            scaleVideoContainer();
+
+            initBannerVideoSize('.video-container .poster img');
+            initBannerVideoSize('.video-container .filter');
+            initBannerVideoSize('.video-container video');
+
+            $(window).on('resize', function() {
+                scaleVideoContainer();
+                scaleBannerVideoSize('.video-container .poster img');
+                scaleBannerVideoSize('.video-container .filter');
+                scaleBannerVideoSize('.video-container video');
+            });
+
+        });
+
+        function scaleVideoContainer() {
+
+            var height = $(window).height() + 5;
+            var unitHeight = parseInt(height) + 'px';
+            $('.homepage-hero-module').css('height',unitHeight);
+
+        }
+
+        function initBannerVideoSize(element){
+
+            $(element).each(function(){
+                $(this).data('height', $(this).height());
+                $(this).data('width', $(this).width());
+            });
+
+            scaleBannerVideoSize(element);
+
+        }
+
+        function scaleBannerVideoSize(element){
+
+            var windowWidth = $(window).width(),
+                    windowHeight = $(window).height() + 5,
+                    videoWidth,
+                    videoHeight;
+
+            console.log(windowHeight);
+
+            $(element).each(function(){
+                var videoAspectRatio = $(this).data('height')/$(this).data('width');
+
+                $(this).width(windowWidth);
+
+                if(windowWidth < 1000){
+                    videoHeight = windowHeight;
+                    videoWidth = videoHeight / videoAspectRatio;
+                    $(this).css({'margin-top' : 0, 'margin-left' : -(videoWidth - windowWidth) / 2 + 'px'});
+
+                    $(this).width(videoWidth).height(videoHeight);
+                }
+
+                $('.homepage-hero-module .video-container video').addClass('fadeIn animated');
+
+            });
+        }
+    </script>
 
 </body>
 
