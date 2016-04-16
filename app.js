@@ -284,23 +284,6 @@ app.get('/beststory/:topnum',function(req,res){//OK 2016/4/16
   });
 });
 
-
-app.post('/comment/:nodeId/:userId', function(req, res) {
-  var commentContent = req.body.commentContent;
-  var userId = req.params.userId;
-  var nodeId = req.params.nodeId;
-  var Comment = AV.Object.extend('Comment');
-  var comment = new Comment();
-  comment.set('nodeID', nodeId);
-  comment.set('userID', userId);
-  comment.set('text', commentContent);
-  comment.save().then(function(success) {
-    res.json({success: true, comment: comment});
-  }).catch(function(error) {
-    res.json({success: false, error: error});
-  });
-});
-
 app.post('/signup', function(req, res) {
   var email = req.body.email;
   var username = req.body.username;
@@ -323,50 +306,13 @@ app.post('/login', function(req, res) {
   var password = req.body.password;
   AV.User.logIn(username, password).then(function(success) {
     // 成功了，现在可以做其他事情了
-    res.redirect('/userhome');
-    //res.json({success: true, user: AV.User.current()});
+    //res.redirect('/userhome');
+    res.json({success: true, user: AV.User.current()});
   }, function(error) {
     // 失败了
-    res.redirect('/login');
-    //res.json({success: false, error: error});
+    //res.redirect('/login');
+    res.json({success: false, error: error});
   });
-});
-
-app.post('/node', function(req, res) {
-  var developFrom = req.body.developFrom;
-  var linkTo = req.body.linkTo;
-  var content = req.body.nodeContent;
-  var title = req.body.nodeTitle;
-  var story = req.body.story;
-  var writer = req.body.writer;
-  if (content == undefined || title == undefined || story == undefined || writer == undefined) {
-    res.json({success: false, error: "parameter incomplete"});
-  }
-  var Node = AV.Object.extend('Node');
-  var newNode = new Node();
-  newNode.set('developFrom', developFrom);
-  newNode.set('linkTo', linkTo);
-  newNode.set('content', content);
-  newNode.set('title', title);
-  var nodeQuery = new AV.Query('Node');
-  if (developFrom != undefined) {
-    nodeQuery.get(developFrom).then(function(foundDevelopFrom) {
-      developFrom = foundDevelopFrom;
-    }).catch(function(error) {
-      res.json({success: false, error: error});
-    });
-  }
-  nodeQuery = new AV.Query('Node');
-  if (linkTo != undefined) {
-    nodeQuery.get(linkTo).then(function(foundLinkTo) {
-      linkTo = foundLinkTo;
-    }).catch(function(error) {
-      res.json({success: false, error: error});
-    });
-  }
-  var storyQuery = new AV.Query()
-});
-app.get('/story/theme', function(req, res) {
 });
 
 app.get('/userhome', function(req, res) {
@@ -418,7 +364,78 @@ app.get('/userhome', function(req, res) {
     });
 });
 /////////////////////Post ADD///////////////////////
+app.post('/comment/:nodeId/:userId', function(req, res) {
+  var commentContent = req.body.commentContent;
+  var userId = req.params.userId;
+  var nodeId = req.params.nodeId;
+  var Comment = AV.Object.extend('Comment');
+  var comment = new Comment();
+  comment.set('nodeID', nodeId);
+  comment.set('userID', userId);
+  comment.set('text', commentContent);
+  comment.save().then(function(success) {
+    res.json({success: true, comment: comment});
+  }).catch(function(error) {
+    res.json({success: false, error: error});
+  });
+});
 
+app.post('/node', function(req, res) {
+  var developFrom = req.body.developFrom;
+  var linkTo = req.body.linkTo;
+  var content = req.body.nodeContent;
+  var title = req.body.nodeTitle;
+  var story = req.body.story;
+  var writer = req.body.writer;
+  if (content == undefined || title == undefined || story == undefined || writer == undefined) {
+    res.json({success: false, error: "parameter incomplete"});
+  }
+  var Node = AV.Object.extend('Node');
+  var newNode = new Node();
+  newNode.set('content', content);
+  newNode.set('title', title);
+  var nodeQuery = new AV.Query('Node');
+  if (developFrom != undefined) {
+    newNode.set('developFrom', developFrom);
+    nodeQuery.get(developFrom).then(function(foundDevelopFrom) {
+      developFrom = foundDevelopFrom;
+    }).catch(function(error) {
+      res.json({success: false, error: error});
+    });
+  }
+  nodeQuery = new AV.Query('Node');
+  if (linkTo != undefined) {
+    newNode.set('linkTo', linkTo);
+    nodeQuery.get(linkTo).then(function(foundLinkTo) {
+      linkTo = foundLinkTo;
+    }).catch(function(error) {
+      res.json({success: false, error: error});
+    });
+  }
+  var storyQuery = new AV.Query('Story');
+  storyQuery.get(story).then(function(sto) {
+    story = sto;
+  }).catch(function(error) {
+    res.json({success: false, error: error});
+  });
+  var writerQuery = new AV.Query(AV.User);
+  writerQuery.get(writer).then(function(wri) {
+    writer = wri;
+  }).catch(function(error) {
+    res.json({success: false, error: error});
+  });
+  newNode.set('story', story);
+  newNode.set('writer', writer);
+  newNode.save().then(function(node) {
+    res.json({success: true, node: node});
+  }).catch(function(error) {
+    res.json({success: false, error: error});
+  });
+});
+
+app.post('/story/:creator/:title/:theme/:intro', function(req, res) {
+  var creator = req.body.creator;
+});
 //////////////////////////////////Our Functions END here/////////////////////////////////////
 // 可以将一类的路由单独保存在一个文件中
 //app.use('/todos', todos);
