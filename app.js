@@ -206,13 +206,20 @@ findNodeByStoryID.find().then(function(obj) {//quert
 app.get('/storybyuser/:userid',function(req,res){
   var querystoryidbyuser=req.params.userid;
   var findStoryIdByUserID=new AV.Query(AV.User);
+  var innerQuery = new AV.Query('Story');
+  innerQuery.include('Theme');
   var stories = [];
   findStoryIdByUserID.get(querystoryidbyuser).then(function(obj){
-    var innerQuery = new AV.Query('Story');
-    innerQuery.include('Theme');
     innerQuery.find().then(function(results) {
       results.map(function(result) {
         if (result.get('followUser').indexOf(querystoryidbyuser) > -1) {
+          /*themeQuery.get(result.get('theme').id).then(function(theme) {
+            console.log(theme.get('name'));
+            result['themeName'] = theme.get('name');
+            //console.log(result);
+          }).catch(function(error) {
+            res.json({success: false, error: error});
+          });*/
           stories.push(result);
         }
       });
