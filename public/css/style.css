@@ -47,34 +47,6 @@ ul.nav.navbar-nav.navbar-right.margin-top {
 	padding:0;
 }
 
-.main-dis
-{
-    min-height: 700px;
-}
-.content{
-    width: 100px;
-    height: 100px;
-    
-    position: absolute;
-    top:0;
-    bottom: 35%;
-    left: 0;
-    right: 11%;
-
-    margin: auto;
-}
-.content2{
-    width: 100px;
-    height: 100px;
-    
-    position: absolute;
-    top:0;
-    bottom: 18%;
-    left: 0;
-    right: 15%;
-
-    margin: auto;
-}
 .word
 {
     color: #D8D8D8;
