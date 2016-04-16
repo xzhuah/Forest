@@ -346,24 +346,19 @@ app.get('/userhome', function(req, res) {
   var topRatedArray;
   async.series([
       function(callback) {
-        console.log("first");
         request({
             url: url1,
             json: true
         }, function (error, response, body) {
             //var url2 = ;
-            console.log(error);
             if (!error && response.statusCode === 200) {
                 user = body['user'];
-                console.log(user);
             }
             callback();
         });
 
     	},
     	function(callback) {
-        console.log("second");
-        console.log(user[0].objectId);
         request({
             url: 'https://forest-novel.herokuapp.com' + '/storybyuser/' + user[0].objectId,
             json: true
@@ -371,14 +366,12 @@ app.get('/userhome', function(req, res) {
 
             if (!error && response.statusCode === 200) {
                 storyArray = body;
-                console.log(storyArray['story'][0].followUser);
             }
             callback();
         });
 
     	},
       function(callback) {
-        console.log("third");
         request({
             url: 'https://forest-novel.herokuapp.com' + '/beststory/' + '1',
             json: true
@@ -386,13 +379,11 @@ app.get('/userhome', function(req, res) {
 
             if (!error && response.statusCode === 200) {
                 topRatedArray = body;
-                console.log(topRatedArray);
             }
             callback();
         });
       }
     ],function(err, results) {
-    	console.log(results);
       res.render('userhome', {storyArray: storyArray, topRatedArray: topRatedArray, user: user});
     });
 });
