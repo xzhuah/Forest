@@ -46,6 +46,11 @@ ul.nav.navbar-nav.navbar-right.margin-top {
 	margin-top: 0px;
 	padding:0;
 }
+
+.main-dis
+{
+    min-height: 700px;
+}
 .content{
     width: 100px;
     height: 100px;
