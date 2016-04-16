@@ -11,6 +11,12 @@ var request = require("request");
 var async = require('async');
 AV.initialize('QdSwHCdXnUjjLLGhodgIWhe5-gzGzoHsz', 'bBT9v34EJ8hN6b4jpUre1YeF');
 var app = express();
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+}
 
 // 设置 view 引擎
 app.set('views', path.join(__dirname, 'views'));
@@ -27,7 +33,7 @@ app.use(cloud);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
+app.use(allowCrossDomain);
 // 未处理异常捕获 middleware
 app.use(function(req, res, next) {
   var d = null;
