@@ -9,14 +9,10 @@ var cloud = require('./cloud');
 var AV = require('leanengine');
 var request = require("request");
 var async = require('async');
+var cors = require('cors');
 AV.initialize('QdSwHCdXnUjjLLGhodgIWhe5-gzGzoHsz', 'bBT9v34EJ8hN6b4jpUre1YeF');
 var app = express();
-var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-}
+
 
 // 设置 view 引擎
 app.set('views', path.join(__dirname, 'views'));
@@ -33,7 +29,7 @@ app.use(cloud);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(allowCrossDomain);
+app.use(cors());
 // 未处理异常捕获 middleware
 app.use(function(req, res, next) {
   var d = null;
@@ -336,11 +332,39 @@ app.post('/login', function(req, res) {
   });
 });
 
-app.get('/node/:storyId/:writerId/:developFrom/;linkTo', function(req, res) {
-  var developFrom = req.params.developFrom;
-  var linkTo = req.params.linkTo;
+app.post('/node', function(req, res) {
+  var developFrom = req.body.developFrom;
+  var linkTo = req.body.linkTo;
+  var content = req.body.nodeContent;
+  var title = req.body.nodeTitle;
+  var story = req.body.story;
+  var writer = req.body.writer;
+  if (content == undefined || title == undefined || story == undefined || writer == undefined) {
+    res.json({success: false, error: "parameter incomplete"});
+  }
   var Node = AV.Object.extend('Node');
   var newNode = new Node();
+  newNode.set('developFrom', developFrom);
+  newNode.set('linkTo', linkTo);
+  newNode.set('content', content);
+  newNode.set('title', title);
+  var nodeQuery = new AV.Query('Node');
+  if (developFrom != undefined) {
+    nodeQuery.get(developFrom).then(function(foundDevelopFrom) {
+      developFrom = foundDevelopFrom;
+    }).catch(function(error) {
+      res.json({success: false, error: error});
+    });
+  }
+  nodeQuery = new AV.Query('Node');
+  if (linkTo != undefined) {
+    nodeQuery.get(linkTo).then(function(foundLinkTo) {
+      linkTo = foundLinkTo;
+    }).catch(function(error) {
+      res.json({success: false, error: error});
+    });
+  }
+  var storyQuery = new AV.Query()
 });
 app.get('/story/theme', function(req, res) {
 });
