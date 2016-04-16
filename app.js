@@ -367,7 +367,84 @@ app.get('/userhome', function(req, res) {
 app.get('/userlike/:userId/:nodeId', function(req, res) {
   var userId = req.params.userId;
   var nodeId = req.params.nodeId;
+  if (userId == undefined || nodeId == undefined) {
+    res.json({success: false, error: "invalid arguments"});
+  }
+  var nodeQuery = new AV.Query('Node');
+  nodeQuery.get(nodeId).then(function(node) {
+    if (node.get('likeBy') == undefined) {
+      node.set('likeBy', [userId]);
+    } else {
+      var new_arr = node.get('likeBy');
+      new_arr.push(userId);
+      node.set('likeBy', new_arr);
+    }
+    return node.save();
+  }).then(function(success) {
+    res.json({success: true, node: success});
+  }).catch(function(error) {
+    res.json({success: false, error: error});
+  });
+});
 
+app.get('/userfollowstory/:storyId/:userId', function(req, res) {
+  var storyId = req.params.storyId;
+  var userId = req.params.userId;
+  if (storyId == undefined || userId == undefined) {
+    res.json({success: false, error: "invalid arguments"});
+  }
+  var storyQuery = new AV.Query('Story');
+  storyQuery.get(storyId).then(function(story) {
+    if (story.get('followUser') == undefined) {
+      story.set('followUser', [userId]);
+    } else {
+      var new_arr = story.get('followUser');
+      new_arr.push(userId);
+      story.set('followUser', new_arr);
+    }
+    return story.save();
+  }).then(function(success) {
+    res.json({success: true, story: success});
+  }).catch(function(error) {
+    res.json({success: false, error: error});
+  });
+});
+
+app.get('/userfollowuser/:followerId/:followeeId', function(req, res) {
+  var followerId = req.params.followerId;
+  var followeeId = req.params.followeeId;
+  if (followerId == undefined || followeeId == undefined) {
+    res.json({success: false, error: "invalid arguments"});
+  }
+  var userQuery = new AV.Query(AV.User);
+  userQuery.get(followerId).then(function(follower) {
+    if (follower.get('followee') == undefined) {
+      follower.set('followee', [followeeId]);
+    } else {
+      var new_arr = story.get('followee');
+      new_arr.push(followeeId);
+      follower.set('followee', new_arr);
+    }
+    return follower.save();
+  }).then(function(success) {
+    userQuery = new AV.Query(AV.User);
+    userQuery.get(followeeId).then(function(followee) {
+      if (followee.get('follower') == undefined) {
+        followee.set('follower', [followerId]);
+      } else {
+        var new_arr = story.get('follower');
+        new_arr.push(followerId);
+        follower.set('follower', new_arr);
+      }
+      return follower.save();
+    }).then(function(success) {
+      res.json({success: true, story: success});
+    }).catch(function(error) {
+      res.json({success: false, error: error});
+    });
+  }).catch(function(error) {
+    res.json({success: false, error: error});
+  });
 });
 /////////////////////Post ADD///////////////////////
 app.post('/comment/:nodeId/:userId', function(req, res) {
