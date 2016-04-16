@@ -1,7 +1,8 @@
 <?php
+
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $storyid=GET["storyid"];
-    $storyName=GET["storyname"];
+    $storyid=$_GET["storyid"];
+    $storyName=$_GET["storyname"];
 }
 ?>
 
@@ -163,7 +164,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     <a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                 </li>
                 <li>
-                    <a href="author.html"><i class="fa fa-fw fa-bar-chart-o"></i> Author: ABC</a>
+                    <a href="author.html"><i class="fa fa-fw fa-bar-chart-o"></i> Author: Current Login</a>
                 </li>
                 <li>
                     <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-clipboard"></i> Post ! <i class="fa fa-fw fa-caret-down"></i></a>
