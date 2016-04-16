@@ -1,3 +1,10 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $storyid=GET["storyid"];
+    $storyName=GET["storyname"];
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -188,7 +195,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        Three Body <small>Know more about this world</small>
+                        <?php echo  $storyName?> <small>Know more about this world</small>
                     </h1>
 
                 </div>
@@ -209,18 +216,19 @@
                         </button>
                     </div>
 
-                    <input type="text" placeholder=" Node Title you would like to use "class="form-control" aria-label="...">
+                    <input type="text" name="title" placeholder=" Node Title you would like to use "class="form-control" aria-label="...">
                 </div>
             </div>
 
             <div class="row" style="padding-top: 10px;">
-                <textarea rows="60" class="col-lg-12" placeholder=" Tell me about your world... "></textarea>
+                <textarea name="content" rows="60" class="col-lg-12" placeholder=" Tell me about your world... "></textarea>
             </div>
             <div class="row" style="padding-top: 10px;">
                 <button type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
                     Submit
                 </button>
                 <button type="button" class="btn btn-default" aria-haspopup="true" aria-expanded="false"> Back </button>
+                <input type="hidden" name="storyID" value=<?php echo $storyid?> />
             </div>
             <!-- /.row -->
             </form>
