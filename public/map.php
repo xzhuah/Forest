@@ -1,3 +1,8 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    $storyID = $_GET['id'];
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,6 +19,10 @@
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript"> 
+        var storyId = <?php echo "'".$storyID."'"?>;
+    </script>
 </head>
 <body>
 
