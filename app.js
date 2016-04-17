@@ -12,7 +12,9 @@ var async = require('async');
 var cors = require('cors');
 AV.initialize('QdSwHCdXnUjjLLGhodgIWhe5-gzGzoHsz', 'bBT9v34EJ8hN6b4jpUre1YeF');
 var app = express();
-
+var Comment = AV.Object.extend('Comment');
+var Node = AV.Object.extend('Node');
+var Story = AV.Object.extend('Story');
 
 // 设置 view 引擎
 app.set('views', path.join(__dirname, 'views'));
@@ -114,7 +116,7 @@ app.get('/commentbynodeid/:nodeid',function(req,res){//OK 2016/4/16
         });
       },function(err){
       res.json({success: false})
-      });
+    });
 });
 
 
@@ -315,8 +317,8 @@ app.post('/login', function(req, res) {
   });
 });
 
-app.get('/userhome', function(req, res) {
-  var url1 = 'https://forest-novel.herokuapp.com' + '/user/' + 'cbai';
+app.get('/userhome/:username', function(req, res) {
+  var url1 = 'https://forest-novel.herokuapp.com' + '/user/' + req.params.username;
   var user;
   var storyArray;
   var topRatedArray;
@@ -376,6 +378,9 @@ app.get('/userlike/:userId/:nodeId', function(req, res) {
       node.set('likeBy', [userId]);
     } else {
       var new_arr = node.get('likeBy');
+      if (new_arr.indexOf(userId) > -1) {
+        res.json({success: false, error: "already liked"});
+      }
       new_arr.push(userId);
       node.set('likeBy', new_arr);
     }
@@ -451,7 +456,6 @@ app.post('/comment/:nodeId/:userId', function(req, res) {
   var commentContent = req.body.commentContent;
   var userId = req.params.userId;
   var nodeId = req.params.nodeId;
-  var Comment = AV.Object.extend('Comment');
   var comment = new Comment();
   comment.set('nodeID', nodeId);
   comment.set('userID', userId);
@@ -473,7 +477,6 @@ app.post('/node', function(req, res) {
   if (content == undefined || title == undefined || story == undefined || writer == undefined) {
     res.json({success: false, error: "parameter incomplete"});
   }
-  var Node = AV.Object.extend('Node');
   var newNode = new Node();
   newNode.set('content', content);
   newNode.set('title', title);
@@ -482,38 +485,36 @@ app.post('/node', function(req, res) {
     newNode.set('developFrom', developFrom);
     nodeQuery.get(developFrom).then(function(foundDevelopFrom) {
       developFrom = foundDevelopFrom;
+      nodeQuery = new AV.Query('Node');
+      if (linkTo != undefined) {
+        newNode.set('linkTo', linkTo);
+        nodeQuery.get(linkTo).then(function(foundLinkTo) {
+          linkTo = foundLinkTo;
+          var storyQuery = new AV.Query('Story');
+          storyQuery.get(story).then(function(sto) {
+            story = sto;
+            var writerQuery = new AV.Query(AV.User);
+            writerQuery.get(writer).then(function(wri) {
+              writer = wri;
+              newNode.set('story', story);
+              newNode.set('writer', writer);
+              return newNode.save();
+            }).then(function(node) {
+              res.json({success: true, node: node});
+            }).catch(function(error) {
+              res.json({success: false, error: error});
+            });
+          }).catch(function(error) {
+            res.json({success: false, error: error});
+          });
+        }).catch(function(error) {
+          res.json({success: false, error: error});
+        });
+      }
     }).catch(function(error) {
       res.json({success: false, error: error});
     });
   }
-  nodeQuery = new AV.Query('Node');
-  if (linkTo != undefined) {
-    newNode.set('linkTo', linkTo);
-    nodeQuery.get(linkTo).then(function(foundLinkTo) {
-      linkTo = foundLinkTo;
-    }).catch(function(error) {
-      res.json({success: false, error: error});
-    });
-  }
-  var storyQuery = new AV.Query('Story');
-  storyQuery.get(story).then(function(sto) {
-    story = sto;
-  }).catch(function(error) {
-    res.json({success: false, error: error});
-  });
-  var writerQuery = new AV.Query(AV.User);
-  writerQuery.get(writer).then(function(wri) {
-    writer = wri;
-  }).catch(function(error) {
-    res.json({success: false, error: error});
-  });
-  newNode.set('story', story);
-  newNode.set('writer', writer);
-  newNode.save().then(function(node) {
-    res.json({success: true, node: node});
-  }).catch(function(error) {
-    res.json({success: false, error: error});
-  });
 });
 
 app.post('/story', function(req, res) {
@@ -526,23 +527,25 @@ app.post('/story', function(req, res) {
   }
   //update theme
   var themeQuery = new AV.Query('Theme');
+  var writerQuery = new AV.Query(AV.User);
   themeQuery.get(theme).then(function(getTheme) {
       theme = getTheme;
+      writerQuery.get(writer).then(function(wri) {
+        creator = wri;
+        var newStory = new Story();
+        newStory.set('creator', creator);
+        newStory.set('title', title);
+        newStory.set('theme', theme);
+        newStory.set('introduction', intro);
+        return newStory.save();
+      }).then(function(success) {
+          res.json({success: true, story: success});
+      }).catch(function(error) {
+        res.json({success: false, error: error});
+      });
   }).catch(function(error) {
     res.json({success: false, error: error});
   });
-  var writerQuery = new AV.Query(AV.User);
-  writerQuery.get(writer).then(function(wri) {
-    creator = wri;
-  }).catch(function(error) {
-    res.json({success: false, error: error});
-  });
-  var Story = AV.Object.extend('Story');
-  var newStory = new Story();
-  newStory.set('creator', creator);
-  newStory.set('title', title);
-  newStory.set('theme', theme);
-  newStory.set('introduction', intro);
 });
 //////////////////////////////////Our Functions END here/////////////////////////////////////
 // 可以将一类的路由单独保存在一个文件中
