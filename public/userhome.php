@@ -1,34 +1,52 @@
 <?php
 //$handle = fopen("http://10.89.116.121:3000/user/cbai","rb");
-$handle = fopen("https://forest-novel.herokuapp.com/user/cbai","rb");
-$content = "";
-while (!feof($handle)) {
-    $content .= fread($handle, 10000);
-}
-fclose($handle);
-$json = $content;
-$obj = json_decode($json,true);
+//$handle = fopen("https://forest-novel.herokuapp.com/user/cbai","rb");
+//$content = "";
+//while (!feof($handle)) {
+//    $content .= fread($handle, 10000);
+//}
+//fclose($handle);
+//$obj = json_decode($content,true);
+$json_ret = file_get_contents("https://forest-novel.herokuapp.com/user/cbai");
+$json_ret = mb_convert_encoding($json_ret, "UTF-8", "gb2312");
+$obj = json_decode($json_ret,true);
+
 $follower=$obj["user"][0]['follower'];
 $followee=$obj["user"][0]['followee'];
 $NumOfFlollower=sizeof($follower);
 $NumOfFlollowee=sizeof($followee);
 //-- story request
 $storyURL="https://forest-novel.herokuapp.com/storybyuser/".$obj["user"][0]['objectId'];
-$story = fopen($storyURL,"rb");
-$storyContent="";
-while (!feof($story)) {
-    $storyContent .= fread($story, 10000);
-}
-$storyArray = json_decode($storyContent,true);
+$json_ret = file_get_contents($storyURL);
+$json_ret = mb_convert_encoding($json_ret, "UTF-8", "gb2312");
+$storyArray = json_decode($json_ret,true);
+//$story = fopen($storyURL,"rb");
+//$storyContent="";
+//while (!feof($story)) {
+//    $storyContent .= fread($story, 10000);
+//}
+//$storyArray = json_decode($storyContent,true);
+//fclose($story);
 //-- top rated request
 $topRatedURL="https://forest-novel.herokuapp.com/beststory/1";
-$topRated= fopen($topRatedURL,"rb");
-$topRatedContent="";
-while (!feof($topRated)) {
-    $topRatedContent .= fread($topRated, 10000);
-}
-$topREatedArray = json_decode($topRatedContent,true);
+$json_ret = file_get_contents($topRatedURL);
+$json_ret = mb_convert_encoding($json_ret, "UTF-8", "gb2312");
+$topREatedArray = json_decode($json_ret,true);
+//$topRated= fopen($topRatedURL,"rb");
+//$topRatedContent="";
+//while (!feof($topRated)) {
+//    $topRatedContent .= fread($topRated, 10000);
+//}
+//$topREatedArray = json_decode($topRatedContent,true);
+//fclose($topRated);
+$categoryURL="https://forest-novel.herokuapp.com/theme";
+$json_ret = file_get_contents($categoryURL);
+$json_ret = mb_convert_encoding($json_ret, "UTF-8", "gb2312");
+$themeArray=json_decode($json_ret,true);
+$theme=$themeArray["theme"];
+//echo var_dump($themeArray);
 $counter=0;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,6 +61,10 @@ $counter=0;
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="css/style.css" rel="stylesheet" type="text/css">
     <style>
+        h4, h5, h6,
+        h1, h2, h3 {margin: 0; font-family: "Arial";}
+        ul, ol {margin: 0;}
+        p {margin: 0;}
         pre {
             border: 1px grey dotted;
             padding: 1em;
@@ -199,7 +221,7 @@ $counter=0;
                         <div class="panel panel-default " >
                             <div class="panel-heading">
                                 <h3 style="top: 10px;position: relative;">
-                                   <a href="#"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> <?php echo $row["title"] ?></a>
+                                   <a href=<?php echo "map.php?id=".$row["objectId"]; ?>> <span class="glyphicon glyphicon-book" aria-hidden="true"></span> <?php echo $row["title"] ?></a>
                                 </h3>
                             </div>
                             <div class="panel-body">
@@ -268,33 +290,14 @@ $counter=0;
                 <!-- Blog Categories Well -->
                 <div class="well">
                     <h4>Categories</h4>
+                    <hr>
                     <div class="row">
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
                             <ul class="list-unstyled">
-                                <li><a href="#">Category Name</a>
-                                </li>
-                                <li><a href="#">Category Name</a>
-                                </li>
-                                <li><a href="#">Category Name</a>
-                                </li>
-                                <li><a href="#">Category Name</a>
-                                </li>
+                                <li class=""><a href=<?php echo "theme.php?id=".$theme[0]["objectId"]."&name=".$theme[0]["name"]."&intro=".$theme[0]["introduction"]; ?>> <?php echo $theme[0]["name"]; ?> </a></li>
+                                <li class=""><a href=<?php echo "theme.php?id=".$theme[1]["objectId"]."&name=".$theme[1]["name"]."&intro=".$theme[1]["introduction"]; ?>> <?php echo $theme[1]["name"]; ?> </a></li>
                             </ul>
                         </div>
-                        <!-- /.col-lg-6 -->
-                        <div class="col-lg-6">
-                            <ul class="list-unstyled">
-                                <li><a href="#">Category Name</a>
-                                </li>
-                                <li><a href="#">Category Name</a>
-                                </li>
-                                <li><a href="#">Category Name</a>
-                                </li>
-                                <li><a href="#">Category Name</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- /.col-lg-6 -->
                     </div>
                     <!-- /.row -->
                 </div>
@@ -324,7 +327,7 @@ $counter=0;
                         </div>
                     </div>
                     <?php
-                    $content++;
+                    $counter++;
                     endforeach;?>
                 </div>
             </div>
@@ -336,22 +339,7 @@ $counter=0;
 
     </div>
     <!-- /.container -->
-    <div class="footer" style="position:relative; top:100px;">
-        <div class="container">
-            <div class="social">
-                <ul>
-                    <li><a href="#" class="face"></a></li>
-                    <li><a href="#" class="twit"></a></li>
-                    <li><a href="#" class="insta"></a></li>
-                    <li><a href="#" class="gplus"></a></li>
-                    <li><a href="#" class="dribl"></a></li>
-                </ul>
-            </div>
-            <div class="copy-rt">
-                <p style="font-family: 'Book Antiqua' ;">Copyright &copy;2016.Forest. All rights reserved.</p>
-            </div>
-        </div>
-    </div>
+
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script>
