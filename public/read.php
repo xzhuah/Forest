@@ -15,23 +15,23 @@ function getHtml($url){
 }
 
 $canLike=false;
-$_SESSION["userid"]="5712a0b38ac2470064630388";
+//$_SESSION["userid"]="5712a0b38ac2470064630388";
 
 
  if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $nodeID = $_GET["nodeid"];                                                      //$nodeID->     Current Node ID
    
-    $obj=getHtml("http://10.89.116.121:3000/node/".$nodeID); 
+    $obj=getHtml("https://forest-novel.herokuapp.com/node/".$nodeID); 
      $obj= $obj["node"];                                                              //$obj->        The Node Object
     $storyid=$obj["story"]["objectId"];
-    $story=getHtml("http://10.89.116.121:3000/story/".$storyid);
+    $story=getHtml("https://forest-novel.herokuapp.com/story/".$storyid);
     $story=$story["story"];
     
     $storyTitle=$story["title"];               
     $nodeTitle=$obj["title"];                                                       //$nodeTitle->  Node title
     $nodeContent=$obj["content"];                                                   //$nodeContent->Node Content
     $createTime=$obj["createdAt"];                                                 //$createTime-> Create time of the node 
-    $writer=getHtml("http://10.89.116.121:3000/userid/".$obj["writer"]["objectId"]);//$writer->     Writer Object
+    $writer=getHtml("https://forest-novel.herokuapp.com/userid/".$obj["writer"]["objectId"]);//$writer->     Writer Object
     $likeUser=$obj["likeBy"];                                                       //$likeUser->   All liked users
     $likeNumber=count($likeUser);                                                   //$likeNumber-> Like number
     $string_len=strlen($nodeContent);                                               //$string_len-> Content length
@@ -42,7 +42,7 @@ $_SESSION["userid"]="5712a0b38ac2470064630388";
     for($i=0;$i<$pageNum;$i++){
     	 $stringsplite[]=substr($nodeContent,$i*$wordPerPage,$wordPerPage);         //$stringsplite-> String on each page
     }
-    $children=getHtml("http://10.89.116.121:3000/nodechild/".$nodeID);              //$children->   all children of the current node
+    $children=getHtml("https://forest-novel.herokuapp.com/nodechild/".$nodeID);              //$children->   all children of the current node
     $likeNum=array();
     for($i=0;$i<count($children);$i++){
     $likeNum[]=count($children[$i]["likeBy"]);                                      //$likeNum->    like number of 
@@ -374,7 +374,7 @@ $_SESSION["userid"]="5712a0b38ac2470064630388";
        <?php 
        for($i=0;$i<$commentNum;$i++){
         $comm= $comments[$i]["text"];
-        $needURL="http://10.89.116.121:3000/userid/".$comments[$i]["userID"]["objectId"];
+        $needURL="https://forest-novel.herokuapp.com/userid/".$comments[$i]["userID"]["objectId"];
       
         $userN=getHtml($needURL);
         $userN=$userN["username"];
