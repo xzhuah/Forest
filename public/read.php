@@ -15,6 +15,7 @@ function getHtml($url){
 }
 
 $canLike=false;
+$_SESSION["userid"]="5712a0b38ac2470064630388";
 
 
  if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -268,7 +269,7 @@ $canLike=false;
                                     <i class="fa fa-comments fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge"><?php echo $commentNum; ?></div>
+                                    <div class="huge" id="comdiv"><?php echo $commentNum; ?></div>
                                     <div>New Comments!</div>
                                 </div>
                             </div>
@@ -308,12 +309,12 @@ $canLike=false;
                     <div class="panel panel-red">
                         <div class="panel-heading">
                             <div class="row">
-                            <a href="#" class="like_buttom" onclick="like();">
+                            <a  class="like_buttom" onclick="like();">
                                             <div class="col-xs-3">
                                                 <i class="fa fa-thumbs-o-up fa-5x"></i>
                                             </div>
                                             <div class="col-xs-9 text-right">
-                                                <div class="huge"><?php echo $likeNumber ;?></div>
+                                                <div class="huge" id="likeNUM"><?php echo $likeNumber ;?></div>
                                                 <div> Like!</div>
                                             </div>
                              </a>
@@ -362,8 +363,14 @@ $canLike=false;
 
 
         </div>
+
+        <div>
+         <input type="text" id="usercomment" name="title" placeholder=" Add your comments " class="form-control" aria-label="..." /><br>
+         <center><input type="submit" value="Add New Comment" onclick="comment();" /><center><br>
+         </div>
+
         <!-- /.container-fluid -->
-       <div id="comment" style="display:none";padding-left: 15px">
+       <div id="comment" style="display:none;padding-left: 15px">
        <?php 
        for($i=0;$i<$commentNum;$i++){
         $comm= $comments[$i]["text"];
@@ -401,13 +408,21 @@ $canLike=false;
 <script src="js/bootstrap.min.js"></script>
 
 <!-- Morris Charts JavaScript -->
-<script src="js/plugins/morris/raphael.min.js"></script>
-<script src="js/morris.min.js"></script>
-<script src="js/plugins/morris/morris-data.js"></script>
-<script>
-function like(){
-   
+<script src="js/jquery.min.js"></script>
 
+<script>
+function comment(){
+    var cont=document.getElementById("usercomment").value;
+    var temp=$.post("https://forest-novel.herokuapp.com/comment/<?php echo $nodeID ?>/<?php echo $_SESSION["userid"];?>",{text:cont});
+    document.getElementById("comdiv").innerText=(parseInt(document.getElementById("comdiv").innerText)+1);
+}
+function like(){
+ 
+  var temp= $.get("https://forest-novel.herokuapp.com/userlike/<?php echo $_SESSION["userid"];?>/<?php echo $nodeID ?>");
+
+   console.log(temp);
+
+   document.getElementById("likeNUM").innerText=(parseInt(<?php echo $likeNumber ?>)+1);
 }
 
 </script>
