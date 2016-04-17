@@ -53,6 +53,12 @@ app.use(function(req, res, next) {
   d.run(next);
 });
 
+app.all('/*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
+
 app.get('/', function(req, res) {
   res.sendFile('index.html', { root: path.join(__dirname, '../public') });
 });
@@ -135,7 +141,7 @@ app.get('/node/:nodeid2',function(req,res){//OK 2016/4/16
 app.get("/nodechild/:parentid",function(req,res){//OK 2016/4/16
 
   var queryparentid=req.params.parentid;
-   var findNodeByParent=new AV.Query("Node");
+   var findNodeByParent=new AV.Query('Node');
    findNodeByParent.get(queryparentid).then(function(objs){
 
         var findNodeByParentID=new AV.Query("Node");
