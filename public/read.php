@@ -15,7 +15,7 @@ function getHtml($url){
 }
 
 $canLike=false;
-//$_SESSION["userid"]="5712a0b38ac2470064630388";
+$_SESSION["userid"]="57109ca879bc44005f759c57";
 
 
  if ($_SERVER["REQUEST_METHOD"] == "GET") {

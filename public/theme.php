@@ -10,12 +10,12 @@ function getHtml($url){
     $obj = json_decode($json,true);//$obj is the node object
     return $obj;
 }
-//$_SESSION["userid"]="5712a0b38ac2470064630388";
+$_SESSION["userid"]="57109ca879bc44005f759c57";
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $storyid=$_GET["id"];
     $themename=$_GET["name"];
     $intro=$_GET["intro"];
-    $url="https://forest-novel.herokuapp.com/storybythemeid/".$storyid;
+    $url="http://10.89.116.121:3000/storybythemeid/".$storyid;
     $Stories=getHtml($url);
   
 }
