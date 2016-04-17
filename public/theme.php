@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Heroic Features - Start Bootstrap Template</title>
+    <title>Theme</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Start Bootstrap</a>
+                <a class="navbar-brand" href="#">Theme Page</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
