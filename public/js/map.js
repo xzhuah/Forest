@@ -1,9 +1,21 @@
+// create node button on header
+//var loogedIn = true; //~
+//var curUserId = "57109ca879bc44005f759c57"; //~
+
+if (loggedIn) {
+    var $rightNav = $("#bs-example-navbar-collapse-1");
+    $rightNav.find("ul").prepend("<li><a href='#' style='color:#21D176;'>CREATE <span style='margin-left:5px;' class='glyphicon glyphicon-plus' aria-hidden='true'></span></a></li>");
+    $rightNav.find("ul a:first").on("mouseover",function(){$(this).css("color","#b0f3d0")}).on("mouseout",function(){$(this).css("color","#21D176")});
+}
+// var storyId = "0"; //~
+
+
 var links = [];
 var nodes = {};
 var width = $("#map").width(),
-    height = 500;
+    height = 450;
 var svg = d3.select("#map");
-// var currentUserId = 0;
+// var curUserId = 0;
 
 $.ajax({
     url: "https://forest-novel.herokuapp.com/nodebystoryid/" + storyId,
@@ -37,7 +49,6 @@ $.ajax({
             objectId: link.target
         });
     });
-
 
     $.each(nodes, function(index, value) {
         var result = $.grep(json, function(e) {

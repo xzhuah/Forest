@@ -20,8 +20,16 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 
-    <script type="text/javascript"> 
+    <script type="text/javascript">
         var storyId = <?php echo "'".$storyID."'"?>;
+        var loggedIn;
+        if (<?php echo $_SESSION['userid'] ?> == undefined) {
+          loggedIn = false;
+        } else {
+          loggedIn = true;
+        }
+        var curUserId = <?php echo "'".$_SESSION['userid']."'"?>;
+        if curUserI
     </script>
 </head>
 <body>
