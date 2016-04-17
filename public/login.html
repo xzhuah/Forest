@@ -45,11 +45,12 @@
                 success: function(responseData, textStatus, jqXHR){
 
                     setCookie("username",responseData.user.username);
+                    setCookie("userID", responseData.user.objectId);
                     console.log(responseData);
                     window.location.href="userhome.php";
                 },
                 error: function (responseData, textStatus, errorThrown) {
-                    alert('POST failed.');
+                    alert('login failed.');
                 }
             });
 

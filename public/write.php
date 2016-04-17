@@ -2,7 +2,10 @@
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $storyid=$_GET["storyid"];
-   
+    $storyName="My Three World";
+    $nodeID=$_GET["nodeID"];
+    setcookie("nodeID", $nodeID);
+    setcookie("storyid",$storyid);
 }
 ?>
 
@@ -17,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Bootstrap Admin Template</title>
+    <title>Forest</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -26,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <link href="css/sb-admin.css" rel="stylesheet">
 
     <!-- Morris Charts CSS -->
-    <link href="css/morris.css" rel="stylesheet">
+    
 
     <!-- Custom Fonts -->
     <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -103,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     <a href="map.php?id=<?php echo $storyid ?>"><i class="fa fa-fw fa-dashboard"></i>Return Story</a>
                 </li>
                 <li>
-                    <a href="author.html"><i class="fa fa-fw fa-bar-chart-o"></i> Author: Current Login</a>
+                    <a href="author.html"><i class="fa fa-fw fa-bar-chart-o"></i> current User:<?php echo $_COOKIE["username"];?></a>
                 </li>
                 <li>
                     <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-clipboard"></i> Post ! <i class="fa fa-fw fa-caret-down"></i></a>
@@ -135,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        <small>Know more about this world</small>
+                        <?php echo  $storyName?> <small>Know more about this world</small>
                     </h1>
 
                 </div>
@@ -156,15 +159,15 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                         </button>
                     </div>
 
-                    <input type="text" name="title" placeholder=" Node Title you would like to use "class="form-control" aria-label="...">
+                    <input type="text" name="title" id="title" placeholder=" Node Title you would like to use "class="form-control" aria-label="...">
                 </div>
             </div>
 
             <div class="row" style="padding-top: 10px;">
-                <textarea name="content" rows="60" class="col-lg-12" placeholder=" Tell me about your world... "></textarea>
+                <textarea name="content" id="content" rows="60" class="col-lg-12" placeholder=" Tell me about your world... "></textarea>
             </div>
             <div class="row" style="padding-top: 10px;">
-                <button type="button" class="btn btn-primary" aria-haspopup="true" aria-expanded="false">
+                <button type="button" class="btn btn-primary " id="submit-button" aria-haspopup="true" aria-expanded="false">
                     Submit
                 </button>
                 <button type="button" class="btn btn-default" aria-haspopup="true" aria-expanded="false"> Back </button>
@@ -191,9 +194,69 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 <script src="js/bootstrap.min.js"></script>
 
 <!-- Morris Charts JavaScript -->
-<script src="js/plugins/morris/raphael.min.js"></script>
-<script src="js/morris.min.js"></script>
-<script src="js/plugins/morris/morris-data.js"></script>
+
+
+<script>
+    function getCookie(c_name)
+    {
+        if (document.cookie.length>0)
+        {
+            c_start=document.cookie.indexOf(c_name + "=")
+            if (c_start!=-1)
+            {
+                c_start=c_start + c_name.length+1
+                c_end=document.cookie.indexOf(";",c_start)
+                if (c_end==-1) c_end=document.cookie.length
+                return unescape(document.cookie.substring(c_start,c_end))
+            }
+        }
+        return ""
+    }
+    function setCookie(c_name,value)
+    {
+        document.cookie=c_name+ "=" + value;
+    }
+   
+    $("#submit-button").click(function(){
+        var title=$("#title").val();
+        var content=$("#content").val();
+        console.log(content);
+        var story=getCookie('storyid');
+        var userID = getCookie('userID');
+         alert("Succeed");
+    window.location.href="userhome.php";
+});
+        // $.post('https://forest-novel.herokuapp.com/node',{
+        //         developFrom: getCookie('nodeID'),
+        //         nodeContent: content,
+        //         nodeTitle:title,
+        //         story: story,
+        //         writer:'57109ca879bc44005f759c57'
+        // });
+
+        /*$.ajax({
+            type: 'POST',
+            url: 'https://forest-novel.herokuapp.com/node',
+            data: {
+                developFrom: getCookie('nodeID'),
+                nodeContent: content,
+                nodeTitle:title,
+                story: story,
+                writer:userID
+            },
+            dataType: 'json',
+            success: function(responseData, textStatus, jqXHR){
+                alert("success!");
+                var url = "read.php?";
+                console.log(responseData);
+            },
+            error: function (responseData, textStatus, errorThrown) {
+                alert('POST failed.');
+            }
+        });
+
+    });*/
+</script>
 
 </body>
 

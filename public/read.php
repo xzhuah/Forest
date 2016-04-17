@@ -65,7 +65,7 @@ $_SESSION["userid"]="57109ca879bc44005f759c57";
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Bootstrap Admin Template</title>
+    <title>Forest</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -73,8 +73,7 @@ $_SESSION["userid"]="57109ca879bc44005f759c57";
     <!-- Custom CSS -->
     <link href="css/sb-admin.css" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="css/morris.css" rel="stylesheet">
+ 
 
     <!-- Custom Fonts -->
     <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -123,6 +122,9 @@ $_SESSION["userid"]="57109ca879bc44005f759c57";
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
+                         <li>
+                            <a href=<?php echo "write.php?storyid=".$story["objectId"]. "&nodeID=".$obj["objectId"];?>> <strong>+ Create</strong></a>
+                        </li>
                         <li>
                             <a href="#">Sign Out</a>
                         </li>
@@ -314,7 +316,7 @@ $_SESSION["userid"]="57109ca879bc44005f759c57";
                                                 <i class="fa fa-thumbs-o-up fa-5x"></i>
                                             </div>
                                             <div class="col-xs-9 text-right">
-                                                <div class="huge" id="likeNUM"><?php echo $likeNumber ;?></div>
+                                                <div class="huge"><?php echo $likeNumber ;?></div>
                                                 <div> Like!</div>
                                             </div>
                              </a>
@@ -428,6 +430,7 @@ function like(){
 
    document.getElementById("likeNUM").innerText=(parseInt(<?php echo $likeNumber ?>)+1);
 }
+
 
 </script>
 
