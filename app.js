@@ -539,11 +539,11 @@ app.post('/story', function(req, res) {
   //update theme
   var themeQuery = new AV.Query('Theme');
   var writerQuery = new AV.Query(AV.User);
+  var newStory = new Story();
   themeQuery.get(theme).then(function(getTheme) {
       theme = getTheme;
-      writerQuery.get(writer).then(function(wri) {
+      writerQuery.get(creator).then(function(wri) {
         creator = wri;
-        var newStory = new Story();
         newStory.set('creator', creator);
         newStory.set('title', title);
         newStory.set('theme', theme);
