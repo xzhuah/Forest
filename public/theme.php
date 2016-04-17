@@ -10,12 +10,12 @@ function getHtml($url){
     $obj = json_decode($json,true);//$obj is the node object
     return $obj;
 }
-$_SESSION["userid"]="5712a0b38ac2470064630388";
+//$_SESSION["userid"]="5712a0b38ac2470064630388";
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $storyid=$_GET["id"];
     $themename=$_GET["name"];
     $intro=$_GET["intro"];
-    $url="http://10.89.116.121:3000/storybythemeid/".$storyid;
+    $url="https://forest-novel.herokuapp.com/storybythemeid/".$storyid;
     $Stories=getHtml($url);
   
 }
@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Heroic Features - Start Bootstrap Template</title>
+    <title>Theme</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Start Bootstrap</a>
+                <a class="navbar-brand" href="#">Theme Page</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

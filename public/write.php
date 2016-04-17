@@ -2,7 +2,7 @@
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $storyid=$_GET["storyid"];
-    $storyName=$_GET["storyname"];
+   
 }
 ?>
 
@@ -103,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     <a href="map.php?id=<?php echo $storyid ?>"><i class="fa fa-fw fa-dashboard"></i>Return Story</a>
                 </li>
                 <li>
-                    <a href="author.html"><i class="fa fa-fw fa-bar-chart-o"></i> Author:<?php echo $writer["username"];?></a>
+                    <a href="author.html"><i class="fa fa-fw fa-bar-chart-o"></i> Author: Current Login</a>
                 </li>
                 <li>
                     <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-clipboard"></i> Post ! <i class="fa fa-fw fa-caret-down"></i></a>
@@ -135,7 +135,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        <?php echo  $storyName?> <small>Know more about this world</small>
+                        <small>Know more about this world</small>
                     </h1>
 
                 </div>
