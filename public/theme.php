@@ -10,6 +10,7 @@ function getHtml($url){
     $obj = json_decode($json,true);//$obj is the node object
     return $obj;
 }
+$_SESSION["userid"]="5712a0b38ac2470064630388";
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $storyid=$_GET["id"];
     $themename=$_GET["name"];
@@ -137,19 +138,19 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         <!-- /.row -->
 
         <hr>
-        <form>
-        <center><h2>Add a new Story</h2></center>
-        <input type="text" name="title" placeholder=" Story Title you would like to add " class="form-control" aria-label="..." /><br>
-        <input type="text" name="intro" placeholder=" Some short introduction " class="form-control" aria-label="..."/><br>
-        <center><input type="submit" value="Add New Story"/></center>
-        </form>
+       
+        <center><h2 style="color:#fff">Add a new Story</h2></center>
+        <input type="text" name="title" placeholder=" Story Title you would like to add " class="form-control" aria-label="..." id="storytitle"/><br>
+        <input type="text" name="intro" placeholder=" Some short introduction " class="form-control" aria-label="..." id="storyinfo"/><br>
+        <center><input type="submit" value="Add New Story" onclick="addStory();" /></center>
+        
 
          <hr>
 
         <!-- Footer -->
         <footer>
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-12"  style="color:#fff">
                     <p>Copyright &copy; Your Website 2014</p>
                 </div>
             </div>
@@ -163,6 +164,24 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        
+        function addStory(){
+            
+            var stitle=document.getElementById("storytitle").value;
+            var sintro=document.getElementById("storyinfo").value;
+            var sid="<?php echo $storyid;?>";
+            var cid="<?php echo $_SESSION['userid'];?>";
+
+            if(stitle!=""&&sintro!=""){
+              var res=  $.post("https://forest-novel.herokuapp.com/story",{creator:cid,storyTitle:stitle,theme:sid,intro:sintro});
+              console.log(res);
+            }
+            document.getElementById("storytitle").value="";
+            document.getElementById("storyinfo").value="";
+           
+        }
+    </script>
 
 </body>
 
