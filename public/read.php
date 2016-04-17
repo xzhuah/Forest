@@ -413,9 +413,12 @@ $_SESSION["userid"]="5712a0b38ac2470064630388";
 <script>
 function comment(){
     var cont=document.getElementById("usercomment").value;
-    var temp=$.post("https://forest-novel.herokuapp.com/comment/<?php echo $nodeID ?>/<?php echo $_SESSION["userid"];?>",{text:cont});
-    document.getElementById("comdiv").innerText=(parseInt(document.getElementById("comdiv").innerText)+1);
-}
+    if(cont!=""){
+        var temp=$.post("https://forest-novel.herokuapp.com/comment/<?php echo $nodeID ?>/<?php echo $_SESSION["userid"];?>",{CommentContent:cont});
+        console.log(temp);
+        document.getElementById("comdiv").innerText=(parseInt(document.getElementById("comdiv").innerText)+1);
+    }
+    }
 function like(){
  
   var temp= $.get("https://forest-novel.herokuapp.com/userlike/<?php echo $_SESSION["userid"];?>/<?php echo $nodeID ?>");
