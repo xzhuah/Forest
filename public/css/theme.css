@@ -1,0 +1,17 @@
+.thumbnail{
+	height:450px;
+}
+.btn{
+
+	width:220px;
+}
+.jumbotron{
+	color:#fff;
+	background:url(../images/titleback.jpg);
+	width:100%;
+	height:400px;
+}
+body{
+	/*background:url(../images/back2.jpg);*/
+	background: #020F27;
+}

@@ -34,6 +34,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/theme.css" rel="stylesheet">
+
 
     <!-- Custom CSS -->
     <link href="css/heroic-features.css" rel="stylesheet">
@@ -86,10 +88,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         <!-- Jumbotron Header -->
         <header class="jumbotron hero-spacer">
+        <div class="titleback">
             <h1><?php echo $themename;?></h1>
             <p><?php echo $intro;?></p>
+         </div>
           
-            </p>
+           
         </header>
 
         <hr>
@@ -108,16 +112,20 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
         <?php
         for($i=0;$i<count($Stories);$i++){
             $title=$Stories[$i]['title'];
+            $storyiid=$Stories[$i]['objectId'];
             $introd=$Stories[$i]['introduction'];
+            $num=$i%4;
+            $pic="images/pic$num.jpg";
             echo " <div class='col-md-3 col-sm-6 hero-feature'>
                 <div class='thumbnail'>
-                    <img src='http://placehold.it/800x500'>
+                    <img src=$pic >
                     <div class='caption'>
+                     <a href='map.php?id=$storyiid' class='btn btn-primary'>Enter Now!</a>
                         <h3>$title</h3>
                         <p>$introd</p>
-                        <p>
-                            <a href='#'' class='btn btn-primary'>Enter Now!</a> <a href='#'' class='btn btn-default'>More Info</a>
-                        </p>
+                       
+                           
+                       
                     </div>
                 </div>
             </div>";
@@ -125,12 +133,18 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         ?>
 
-          
-
         </div>
         <!-- /.row -->
 
         <hr>
+        <form>
+        <center><h2>Add a new Story</h2></center>
+        <input type="text" name="title" placeholder=" Story Title you would like to add " class="form-control" aria-label="..." /><br>
+        <input type="text" name="intro" placeholder=" Some short introduction " class="form-control" aria-label="..."/><br>
+        <center><input type="submit" value="Add New Story"/></center>
+        </form>
+
+         <hr>
 
         <!-- Footer -->
         <footer>
