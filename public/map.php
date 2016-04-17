@@ -1,4 +1,5 @@
 <?php
+$_SESSION["userid"]="5712a0b38ac2470064630388";
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $storyID = $_GET['id'];
 }
@@ -22,14 +23,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     <script type="text/javascript">
         var storyId = <?php echo "'".$storyID."'"?>;
-        var loggedIn;
-        if (<?php echo $_SESSION['userid'] ?> == undefined) {
-          loggedIn = false;
-        } else {
-          loggedIn = true;
-        }
+        var loggedIn=true;
+        
         var curUserId = <?php echo "'".$_SESSION['userid']."'"?>;
-        if curUserI
+        
     </script>
 </head>
 <body>
