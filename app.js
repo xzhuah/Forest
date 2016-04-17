@@ -456,12 +456,23 @@ app.post('/comment/:nodeId/:userId', function(req, res) {
   var commentContent = req.body.commentContent;
   var userId = req.params.userId;
   var nodeId = req.params.nodeId;
+  if (userId == undefined || nodeId == undefined || commentContent == undefined) {
+    res.json({success: false, error: "invalid arguments"});
+  }
+  var nodeQuery = new AV.Query('Node');
+  var userQuery = new AV.Query(AV.User);
   var comment = new Comment();
-  comment.set('nodeID', nodeId);
-  comment.set('userID', userId);
   comment.set('text', commentContent);
-  comment.save().then(function(success) {
-    res.json({success: true, comment: comment});
+  userQuery.get(userId).then(function(user) {
+    comment.set('userID', user);
+    nodeQuery.get(nodeId).then(function(node) {
+      comment.set('nodeID', node);
+      return comment.save();
+    }).then(function(success) {
+      res.json({success: true, comment: success});
+    }).catch(function(error) {
+      res.json({success: false, error: error});
+    });
   }).catch(function(error) {
     res.json({success: false, error: error});
   });
